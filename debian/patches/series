@@ -1,0 +1,4 @@
+0001-Remove-failing-test-case.patch
+0002-Remove-gemspec-git-ls-files.patch
+0003-Don-t-set-PYGMENTS_PATH-and-remove-sys.path-appends.patch
+0004-Conditional-use-of-lexers-file-path.patch

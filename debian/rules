@@ -1,0 +1,33 @@
+#!/usr/bin/make -f
+#export DH_VERBOSE=1
+#
+# Uncomment to ignore all test failures (but the tests will run anyway)
+#export DH_RUBY_IGNORE_TESTS=all
+#
+# Uncomment to ignore some test failures (but the tests will run anyway).
+# Valid values:
+#export DH_RUBY_IGNORE_TESTS=ruby1.8 ruby1.9.1 require-rubygems
+#
+# If you need to specify the .gemspec (eg there is more than one)
+#export DH_RUBY_GEMSPEC=gem.gemspec
+
+%:
+	dh $@ --buildsystem=ruby --with ruby
+
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -rf doc
+	# clean files in vendor dir (entire vendor is unused but built anyways)
+	find vendor -type f -iname "*.pyc" | xargs rm || true
+
+override_dh_auto_build:
+	dh_auto_build
+	# build documention
+	rdoc lib
+	# remove bundled jquery.js
+	rm -f tmp/tmp/usr/share/doc/ruby-pygments.rb-doc/html/js/jquery.js
+
+override_dh_installchangelogs:
+	dh_installchangelogs
+	dh_installchangelogs CHANGELOG.md
+	dh_compress

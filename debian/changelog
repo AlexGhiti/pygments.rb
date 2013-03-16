@@ -1,0 +1,5 @@
+ruby-pygments.rb (0.4.2~git.20130316.f82642a-1) unstable; urgency=low
+
+  * Initial release (Closes: #703188)
+
+ -- Per Andersson <avtobiff@gmail.com>  Sat, 16 Mar 2013 08:15:39 +0100

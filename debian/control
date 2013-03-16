@@ -1,0 +1,64 @@
+Source: ruby-pygments.rb
+Section: ruby
+Priority: optional
+Maintainer: Debian Ruby Extras Maintainers <pkg-ruby-extras-maintainers@lists.alioth.debian.org>
+Uploaders: Per Andersson <avtobiff@gmail.com>
+DM-Upload-Allowed: yes
+Build-Depends:
+ debhelper (>= 7.0.50~),
+ gem2deb (>= 0.3.0~),
+ bundler,
+ python-pygments,
+ python-simplejson,
+ rake-compiler,
+ ruby-posix-spawn,
+ ruby-yajl
+Standards-Version: 3.9.3
+Vcs-Git: git://git.debian.org/pkg-ruby-extras/ruby-pygments.rb.git
+Vcs-Browser: http://git.debian.org/?p=pkg-ruby-extras/ruby-pygments.rb.git;a=summary
+Homepage: http://github.com/tmm1/pygmetns.rb
+XS-Ruby-Versions: all
+
+Package: ruby-pygments.rb
+Architecture: all
+XB-Ruby-Versions: ${ruby:Versions}
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+ python-pygments,
+ ruby | ruby-interpreter,
+ ruby-posix-spawn,
+ ruby-yajl
+Suggests:
+ ruby-pygments.rb-doc
+Description: pygments wrapper for Ruby
+ A Ruby wrapper for the Python pygments syntax highlighter.
+ .
+ pygments.rb works by talking over a simple pipe to a long-lived Python child
+ process. This library replaces albino, as well as a version of pygments.rb
+ that used an embedded Python interpreter.
+ .
+ Each Ruby process that runs has its own 'personal Python'; for example, 4
+ Unicorn workers will have one Python process each.  If a Python process dies,
+ a new one will be spawned on the next pygments.rb request.
+
+Package: ruby-pygments.rb-doc
+Section: doc
+Architecture: all
+Depends:
+ ${misc:Depends},
+ libjs-jquery
+Suggests:
+ ruby-pygments.rb
+Description: pygments wrapper for Ruby (doc)
+ A Ruby wrapper for the Python pygments syntax highlighter.
+ .
+ pygments.rb works by talking over a simple pipe to a long-lived Python child
+ process. This library replaces albino, as well as a version of pygments.rb
+ that used an embedded Python interpreter.
+ .
+ Each Ruby process that runs has its own 'personal Python'; for example, 4
+ Unicorn workers will have one Python process each.  If a Python process dies,
+ a new one will be spawned on the next pygments.rb request.
+ .
+ This contains documentation for ruby-pygments.rb.

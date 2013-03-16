@@ -1,0 +1,60 @@
+From: Per Andersson <avtobiff@gmail.com>
+Date: Sat, 16 Mar 2013 15:45:48 +0100
+Subject: Don't set PYGMENTS_PATH and remove sys.path appends
+
+---
+ lib/pygments/mentos.py |   15 ++++++++-------
+ lib/pygments/popen.rb  |    5 +++--
+ 2 files changed, 11 insertions(+), 9 deletions(-)
+
+diff --git a/lib/pygments/mentos.py b/lib/pygments/mentos.py
+index c0d6e88..7ee74a9 100755
+--- a/lib/pygments/mentos.py
++++ b/lib/pygments/mentos.py
+@@ -3,15 +3,16 @@
+ 
+ import sys, re, os, signal
+ import traceback
+-if 'PYGMENTS_PATH' in os.environ:
+-    sys.path.insert(0, os.environ['PYGMENTS_PATH'])
++# in debian we have everything we need installed
++#if 'PYGMENTS_PATH' in os.environ:
++#    sys.path.insert(0, os.environ['PYGMENTS_PATH'])
+ 
+-dirname = os.path.dirname
++#dirname = os.path.dirname
+ 
+-base_dir = dirname(dirname(dirname(os.path.abspath(__file__))))
+-sys.path.append(base_dir + "/vendor")
+-sys.path.append(base_dir + "/vendor/pygments-main")
+-sys.path.append(base_dir + "/vendor/simplejson")
++#base_dir = dirname(dirname(dirname(os.path.abspath(__file__))))
++#sys.path.append(base_dir + "/vendor")
++#sys.path.append(base_dir + "/vendor/pygments-main")
++#sys.path.append(base_dir + "/vendor/simplejson")
+ 
+ import pygments
+ from pygments import lexers, formatters, styles, filters
+diff --git a/lib/pygments/popen.rb b/lib/pygments/popen.rb
+index de72f87..8b0af06 100644
+--- a/lib/pygments/popen.rb
++++ b/lib/pygments/popen.rb
+@@ -19,7 +19,7 @@ module Pygments
+     # Get things started by opening a pipe to mentos (the freshmaker), a
+     # Python process that talks to the Pygments library. We'll talk back and
+     # forth across this pipe.
+-    def start(pygments_path = File.expand_path('../../../vendor/pygments-main/', __FILE__))
++    def start #(pygments_path = File.expand_path('../../../vendor/pygments-main/', __FILE__))
+       is_windows = RUBY_PLATFORM =~ /mswin|mingw/
+       begin
+         @log = Logger.new(ENV['MENTOS_LOG'] ||= is_windows ? 'NUL:' : '/dev/null')
+@@ -29,7 +29,8 @@ module Pygments
+         @log = Logger.new(is_windows ? 'NUL:' : '/dev/null')
+       end
+ 
+-      ENV['PYGMENTS_PATH'] = pygments_path
++      # in debian we have python-pygments installed
++      #ENV['PYGMENTS_PATH'] = pygments_path
+ 
+       # Make sure we kill off the child when we're done
+       at_exit { stop "Exiting" }

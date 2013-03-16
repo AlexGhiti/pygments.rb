@@ -1,0 +1,25 @@
+From: Per Andersson <avtobiff@gmail.com>
+Date: Sat, 16 Mar 2013 16:08:27 +0100
+Subject: Conditional use of lexers file path
+
+Use upstream file path during build, use shipped file once installed.
+---
+ lib/pygments/popen.rb |    5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/lib/pygments/popen.rb b/lib/pygments/popen.rb
+index 8b0af06..77f00f1 100644
+--- a/lib/pygments/popen.rb
++++ b/lib/pygments/popen.rb
+@@ -110,7 +110,10 @@ module Pygments
+     # Returns an array of lexers
+     def lexers
+       begin
+-        lexer_file = File.expand_path('../../../lexers', __FILE__)
++        # use upstream file path during build, use shipped file once installed
++        upstream_file = File.expand_path('../../../lexers', __FILE__)
++        debian_file = '/usr/share/ruby-pygments.rb/lexers'
++        lexer_file = File.exists?(debian_file) ? debian_file : upstream_file
+         raw = File.open(lexer_file, "r").read
+         Marshal.load(raw)
+       rescue Errno::ENOENT
