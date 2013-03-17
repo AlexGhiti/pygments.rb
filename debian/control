@@ -9,7 +9,6 @@ Build-Depends:
  gem2deb (>= 0.3.0~),
  bundler,
  python-pygments,
- python-simplejson,
  rake-compiler,
  ruby-posix-spawn,
  ruby-yajl
