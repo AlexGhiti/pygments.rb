@@ -21,6 +21,7 @@ XS-Ruby-Versions: all
 Package: ruby-pygments.rb
 Architecture: all
 XB-Ruby-Versions: ${ruby:Versions}
+Provides: ruby-pygments
 Depends:
  ${misc:Depends},
  ${shlibs:Depends},
