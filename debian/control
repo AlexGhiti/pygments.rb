@@ -12,7 +12,7 @@ Build-Depends:
  rake-compiler,
  ruby-posix-spawn,
  ruby-yajl
-Standards-Version: 3.9.3
+Standards-Version: 3.9.4
 Vcs-Git: git://git.debian.org/pkg-ruby-extras/ruby-pygments.rb.git
 Vcs-Browser: http://git.debian.org/?p=pkg-ruby-extras/ruby-pygments.rb.git;a=summary
 Homepage: http://github.com/tmm1/pygmetns.rb
