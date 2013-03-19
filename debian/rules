@@ -24,6 +24,11 @@ override_dh_auto_build:
 	dh_auto_build
 	# build documention
 	rdoc lib
+
+override_dh_auto_install:
+	dh_auto_install
+	# make mentos.py executable
+	chmod 0755 debian/ruby-pygments.rb/usr/lib/ruby/vendor_ruby/pygments/mentos.py
 	# remove bundled jquery.js
 	rm -f tmp/tmp/usr/share/doc/ruby-pygments.rb-doc/html/js/jquery.js
 

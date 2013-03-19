@@ -25,6 +25,7 @@ Provides: ruby-pygments
 Depends:
  ${misc:Depends},
  ${shlibs:Depends},
+ python,
  python-pygments,
  ruby | ruby-interpreter,
  ruby-posix-spawn,
