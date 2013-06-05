@@ -36,7 +36,7 @@ index c0d6e88..7ee74a9 100755
  import pygments
  from pygments import lexers, formatters, styles, filters
 diff --git a/lib/pygments/popen.rb b/lib/pygments/popen.rb
-index de72f87..8b0af06 100644
+index 1bb2c06..cc7ac8b 100644
 --- a/lib/pygments/popen.rb
 +++ b/lib/pygments/popen.rb
 @@ -19,7 +19,7 @@ module Pygments

@@ -8,10 +8,10 @@ Use upstream file path during build, use shipped file once installed.
  1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/lib/pygments/popen.rb b/lib/pygments/popen.rb
-index 8b0af06..77f00f1 100644
+index cc7ac8b..eb3cb78 100644
 --- a/lib/pygments/popen.rb
 +++ b/lib/pygments/popen.rb
-@@ -110,7 +110,10 @@ module Pygments
+@@ -119,7 +119,10 @@ module Pygments
      # Returns an array of lexers
      def lexers
        begin
