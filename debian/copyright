@@ -7,6 +7,22 @@ Copyright: 2012-2013 Aman Gupta <aman@tmm1.net>
            2012-2013 Ted Nyman <ted@ted.io>
 License: MIT
 
+Files: vendor/custom_lexers/github.py
+Copyright: 2012 Github, Inc
+License: BSD
+
+Files: vendor/pygments-main/*
+Copyright: 2006-2013 The pygments team
+License: BSD-2-clause
+
+Files: vendor/simplejson/*
+Copyright: 2006 Bob Ippolito <bob@redivi.com>
+License: MIT
+
+Files: test/test_data.c
+Copyright: 2009-2010 Salvatore Sanfilippo <antirez@gmail.com>
+License: BSD-3-clause
+
 Files: debian/*
 Copyright: 2013 Per Andersson <avtobiff@gmail.com>
 License: MIT
