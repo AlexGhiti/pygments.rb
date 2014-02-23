@@ -1,1 +1,2 @@
 lexers usr/share/ruby-pygments.rb/
+doc/*  usr/share/doc/ruby-pygments.rb/html/

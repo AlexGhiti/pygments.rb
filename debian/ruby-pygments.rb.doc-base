@@ -1,4 +1,4 @@
-Document: ruby-pygments.rb-doc
+Document: ruby-pygments.rb
 Title: Debian ruby-pygments.rb Manual
 Author: Aman Gupta, Ted Nyman
 Abstract: pygments wrapper for Ruby
@@ -14,5 +14,5 @@ Abstract: pygments wrapper for Ruby
 Section: Programming/Ruby
 
 Format: HTML
-Index: /usr/share/doc/ruby-pygments.rb-doc/html/index.html
-Files: /usr/share/doc/ruby-pygments.rb-doc/html/*
+Index: /usr/share/doc/ruby-pygments.rb/html/index.html
+Files: /usr/share/doc/ruby-pygments.rb/html/*

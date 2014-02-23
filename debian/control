@@ -29,8 +29,6 @@ Depends:
  ruby | ruby-interpreter,
  ruby-posix-spawn,
  ruby-yajl
-Suggests:
- ruby-pygments.rb-doc
 Description: pygments wrapper for Ruby
  A Ruby wrapper for the Python pygments syntax highlighter.
  .
@@ -41,24 +39,3 @@ Description: pygments wrapper for Ruby
  Each Ruby process that runs has its own 'personal Python'; for example, 4
  Unicorn workers will have one Python process each.  If a Python process dies,
  a new one will be spawned on the next pygments.rb request.
-
-Package: ruby-pygments.rb-doc
-Section: doc
-Architecture: all
-Depends:
- ${misc:Depends},
- libjs-jquery
-Suggests:
- ruby-pygments.rb
-Description: pygments wrapper for Ruby (doc)
- A Ruby wrapper for the Python pygments syntax highlighter.
- .
- pygments.rb works by talking over a simple pipe to a long-lived Python child
- process. This library replaces albino, as well as a version of pygments.rb
- that used an embedded Python interpreter.
- .
- Each Ruby process that runs has its own 'personal Python'; for example, 4
- Unicorn workers will have one Python process each.  If a Python process dies,
- a new one will be spawned on the next pygments.rb request.
- .
- This contains documentation for ruby-pygments.rb.
