@@ -1,7 +1,7 @@
-From: Per Andersson <avtobiff@gmail.com>
-Date: Sat, 16 Mar 2013 12:24:03 +0100
-Subject: Remove gemspec git ls-files
-
+Description:Remove gemspec git ls files.patch
+ Removed call to 'git ls-files' from gem spec.
+Subject:Remove gemspec git ls-files
+From:Per Andersson <avtobiff@gmail.com>
 ---
  pygments.rb.gemspec |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)

@@ -1,7 +1,7 @@
-From: Per Andersson <avtobiff@gmail.com>
-Date: Sat, 16 Mar 2013 15:45:48 +0100
-Subject: Don't set PYGMENTS_PATH and remove sys.path appends
-
+Description:use pygments provided by Debian
+ Don t set PYGMENTS_PATH and remove sys.path appends.patch
+Subject:Don't set PYGMENTS_PATH and remove sys.path appends
+From:Per Andersson <avtobiff@gmail.com>
 ---
  lib/pygments/mentos.py |   15 ++++++++-------
  lib/pygments/popen.rb  |    5 +++--

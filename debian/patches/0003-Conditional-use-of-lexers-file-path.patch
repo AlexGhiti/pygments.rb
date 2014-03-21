@@ -1,8 +1,6 @@
-From: Per Andersson <avtobiff@gmail.com>
-Date: Sat, 16 Mar 2013 16:08:27 +0100
-Subject: Conditional use of lexers file path
-
-Use upstream file path during build, use shipped file once installed.
+Description:0003 Conditional use of lexers file path.patch
+Subject:Conditional use of lexers file pathUse upstream file path during build, use shipped file once installed.
+From:Per Andersson <avtobiff@gmail.com>
 ---
  lib/pygments/popen.rb |    5 ++++-
  1 file changed, 4 insertions(+), 1 deletion(-)
