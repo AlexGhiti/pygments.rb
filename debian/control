@@ -1,34 +1,32 @@
 Source: ruby-pygments.rb
+Maintainer: Debian Ruby Extras Maintainers <pkg-ruby-extras-maintainers@lists.alioth.debian.org>
+Uploaders: Per Andersson <avtobiff@gmail.com>,
+           Dominique Dumont <dod@debian.org>
 Section: ruby
 Priority: optional
-Maintainer: Debian Ruby Extras Maintainers <pkg-ruby-extras-maintainers@lists.alioth.debian.org>
-Uploaders: Per Andersson <avtobiff@gmail.com>
-Build-Depends:
- debhelper (>= 7.0.50~),
- gem2deb (>= 0.3.0~),
- bundler,
- python-pygments,
- rake-compiler,
- ruby-posix-spawn,
- ruby-yajl
-Standards-Version: 3.9.4
-Vcs-Git: git://anonscm.debian.org/pkg-ruby-extras/ruby-pygments.rb.git
-Vcs-Browser: http://anonscm.debian.org/gitweb?p=pkg-ruby-extras/ruby-pygments.rb.git;a=summary
+Build-Depends: debhelper (>= 9),
+               gem2deb (>= 0.3.0~),
+               bundler,
+               python-pygments,
+               rake-compiler,
+               ruby-posix-spawn,
+               ruby-yajl
+Standards-Version: 3.9.5
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-ruby-extras/packages/ruby-pygments.rb.git
+Vcs-Git: git://anonscm.debian.org/pkg-ruby-extras/packages/ruby-pygments.rb.git
 Homepage: http://github.com/tmm1/pygments.rb
 XS-Ruby-Versions: all
 
 Package: ruby-pygments.rb
 Architecture: all
-XB-Ruby-Versions: ${ruby:Versions}
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+         python,
+         python-pygments,
+         ruby | ruby-interpreter,
+         ruby-posix-spawn,
+         ruby-yajl
 Provides: ruby-pygments
-Depends:
- ${misc:Depends},
- ${shlibs:Depends},
- python,
- python-pygments,
- ruby | ruby-interpreter,
- ruby-posix-spawn,
- ruby-yajl
 Description: pygments wrapper for Ruby
  A Ruby wrapper for the Python pygments syntax highlighter.
  .
@@ -39,3 +37,4 @@ Description: pygments wrapper for Ruby
  Each Ruby process that runs has its own 'personal Python'; for example, 4
  Unicorn workers will have one Python process each.  If a Python process dies,
  a new one will be spawned on the next pygments.rb request.
+XB-Ruby-Versions: ${ruby:Versions}
