@@ -5,7 +5,7 @@ Comment: vendors/pygments-main and vendors/simplejson are not used, they are dis
  PYGMENTS_PATH-and-remove-sys.path-appends
 Copyright: 2012-2013 Aman Gupta <aman@tmm1.net>
            2012-2013 Ted Nyman <ted@ted.io>
-License: MIT
+License: Expat
 
 Files: vendor/custom_lexers/github.py
 Copyright: 2012 Github, Inc
