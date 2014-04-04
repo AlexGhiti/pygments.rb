@@ -1,0 +1,12 @@
+Description: Use proper Python shebang
+Subject: Use proper Python shebang
+From: Per Andersson <avtobiff@gmail.com>
+---
+--- a/lib/pygments/mentos.py
++++ b/lib/pygments/mentos.py
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/python
+ # -*- coding: utf-8 -*-
+ 
+ import sys, re, os, signal

@@ -2,3 +2,4 @@
 0002-Don-t-set-PYGMENTS_PATH-and-remove-sys.path-appends.patch
 0003-Conditional-use-of-lexers-file-path.patch
 0004-Remove-unshipped-custom-lexers.patch
+0005-Use-proper-python-shebang.patch
