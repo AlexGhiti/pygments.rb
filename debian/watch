@@ -1,2 +1,3 @@
 version=3
-http://githubredir.debian.net/github/tmm1/pygments.rb/ v(.*).tar.gz
+opts=dversionmangle=s/~ds\d+$// \
+    http://githubredir.debian.net/github/tmm1/pygments.rb/ v(.*).tar.gz
