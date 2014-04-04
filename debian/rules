@@ -33,3 +33,6 @@ override_dh_auto_install:
 override_dh_installchangelogs:
 	dh_installchangelogs CHANGELOG.md
 	dh_compress
+
+get-orig-source:
+	debian/get-orig-source.sh
