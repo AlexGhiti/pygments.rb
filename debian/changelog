@@ -1,5 +1,5 @@
-ruby-pygments.rb (0.5.0~git.20130605.84c69a1-1) unstable; urgency=low
+ruby-pygments.rb (0.5.4~ds1-1) unstable; urgency=low
 
   * Initial release (Closes: #703188)
 
- -- Per Andersson <avtobiff@gmail.com>  Wed, 05 Jun 2013 23:54:03 +0200
+ -- Per Andersson <avtobiff@gmail.com>  Fri, 04 Apr 2014 03:44:10 +0200
