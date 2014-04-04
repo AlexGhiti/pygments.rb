@@ -3,3 +3,4 @@
 0003-Conditional-use-of-lexers-file-path.patch
 0004-Remove-unshipped-custom-lexers.patch
 0005-Use-proper-python-shebang.patch
+0006-Invoke-mentos-directly-on-GNU-Linux.patch

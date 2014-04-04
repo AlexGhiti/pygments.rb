@@ -1,0 +1,46 @@
+From cf77a917f7e4d21b03397b39278357c3e9650b72 Mon Sep 17 00:00:00 2001
+From: Per Andersson <avtobiff@gmail.com>
+Date: Wed, 2 Apr 2014 23:30:58 +0200
+Subject: [PATCH] Invoke mentos directly on GNU/Linux
+
+Invoking the script on GNU/Linux by passing it as an argument to
+python(2) makes the process use 100% CPU for about tens of seconds when
+it is supposed to timeout (test_returns_nil_on_timeout reproduces this).
+
+On current Debian Sid python2 exists, so this can be used in mentos.py
+shebang.
+
+Brought back script invocation for windows.
+
+This is forwarded upstream https://github.com/tmm1/pygments.rb/pull/119
+---
+ lib/pygments/mentos.py |  2 +-
+ lib/pygments/popen.rb  | 13 ++-----------
+ 2 files changed, 3 insertions(+), 12 deletions(-)
+
+--- a/lib/pygments/popen.rb
++++ b/lib/pygments/popen.rb
+@@ -37,21 +37,12 @@
+ 
+       # A pipe to the mentos python process. #popen4 gives us
+       # the pid and three IO objects to write and read.
+-      script = "#{python_binary} #{File.expand_path('../mentos.py', __FILE__)}"
++      script = "#{File.expand_path('../mentos.py', __FILE__)}"
++      script = "python " + script if is_windows
+       @pid, @in, @out, @err = popen4(script)
+       @log.info "[#{Time.now.iso8601}] Starting pid #{@pid.to_s} with fd #{@out.to_i.to_s}."
+     end
+ 
+-    # Detect a suitable Python binary to use. We can't just use `python2`
+-    # because apparently some old versions of Debian only have `python` or
+-    # something like that.
+-    def python_binary
+-      @python_binary ||= begin
+-        `which python2`
+-        $?.success? ? "python2" : "python"
+-      end
+-    end
+-
+     # Stop the child process by issuing a kill -9.
+     #
+     # We then call waitpid() with the pid, which waits for that particular
