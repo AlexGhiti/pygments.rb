@@ -4,3 +4,4 @@
 0004-Remove-unshipped-custom-lexers.patch
 0005-Use-proper-python-shebang.patch
 0006-Invoke-mentos-directly-on-GNU-Linux.patch
+0007-Update-test-result.patch
