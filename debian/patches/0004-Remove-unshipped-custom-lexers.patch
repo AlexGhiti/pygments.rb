@@ -1,0 +1,18 @@
+Description: Remove unshipped custom lexers
+Subject: Remove unshipped custom lexers
+From: Per Andersson <avtobiff@gmail.com>
+--- a/lib/pygments/popen.rb
++++ b/lib/pygments/popen.rb
+@@ -142,9 +142,9 @@
+           :filenames => lxr[2],
+           :mimetypes => lxr[3]
+         }
+-        hash["Augeas"] = {:name=>"Augeas", :aliases=>["augeas"], :filenames=>["*.aug"], :mimetypes=>[]}
+-        hash["dasm16"] = {:name=>"dasm16", :aliases=>["DASM16"], :filenames=>["*.dasm16", "*.dasm"], :mimetypes=>['text/x-dasm16']}
+-        hash["Puppet"] = {:name=>"Puppet", :aliases=>["puppet"], :filenames=>["*.pp"], :mimetypes=>[]}
++        #hash["Augeas"] = {:name=>"Augeas", :aliases=>["augeas"], :filenames=>["*.aug"], :mimetypes=>[]}
++        #hash["dasm16"] = {:name=>"dasm16", :aliases=>["DASM16"], :filenames=>["*.dasm16", "*.dasm"], :mimetypes=>['text/x-dasm16']}
++        #hash["Puppet"] = {:name=>"Puppet", :aliases=>["puppet"], :filenames=>["*.pp"], :mimetypes=>[]}
+         hash
+       end
+     end
