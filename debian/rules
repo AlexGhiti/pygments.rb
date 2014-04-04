@@ -17,8 +17,6 @@
 override_dh_auto_clean:
 	dh_auto_clean
 	rm -rf doc
-	# clean files in vendor dir (entire vendor is unused but built anyways)
-	find vendor -type f -iname "*.pyc" | xargs rm || true
 
 override_dh_auto_build:
 	dh_auto_build
