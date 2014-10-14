@@ -12,8 +12,8 @@ Build-Depends: debhelper (>= 9),
                ruby-posix-spawn,
                ruby-yajl
 Standards-Version: 3.9.5
-Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-ruby-extras/packages/ruby-pygments.rb.git
-Vcs-Git: git://anonscm.debian.org/pkg-ruby-extras/packages/ruby-pygments.rb.git
+Vcs-Browser: https://anonscm.debian.org/cgit/pkg-ruby-extras/ruby-pygments.rb.git
+Vcs-Git: git://anonscm.debian.org/pkg-ruby-extras/ruby-pygments.rb.git
 Homepage: http://github.com/tmm1/pygments.rb
 XS-Ruby-Versions: all
 
