@@ -1,3 +1,10 @@
+ruby-pygments.rb (0.5.4~ds1-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Update the testsuite (Closes: #768615)
+
+ -- Tomasz Buchert <tomasz.buchert@inria.fr>  Sat, 22 Nov 2014 15:18:14 +0100
+
 ruby-pygments.rb (0.5.4~ds1-1) unstable; urgency=low
 
   * Initial release (Closes: #703188)
