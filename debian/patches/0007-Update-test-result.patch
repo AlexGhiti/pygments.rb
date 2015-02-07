@@ -1,15 +1,18 @@
-Description: make test less fragile
+Description: Update test result
+Subject: Update test result
+ Using old test result.
 
-Author: Antonio Terceiro <terceiro@debian.org>
+ Already reported upstream https://github.com/tmm1/pygments.rb/issues/118
+Author: Per Andersson <avtobiff@gmail.com>
 ---
 --- a/test/test_pygments.rb
 +++ b/test/test_pygments.rb
-@@ -32,7 +32,7 @@ class PygmentsHighlightTest < Test::Unit
+@@ -32,7 +32,7 @@
    def test_highlight_works_with_larger_files
      code = P.highlight(REDIS_CODE)
      assert_match 'used_memory_peak_human', code
 -    assert_equal 455203, code.bytesize.to_i
-+    assert code.bytesize.to_i > 400_000
++    assert_equal 454107, code.bytesize.to_i
    end
  
    def test_returns_nil_on_timeout
