@@ -5,4 +5,3 @@
 0005-Use-proper-python-shebang.patch
 0006-Invoke-mentos-directly-on-GNU-Linux.patch
 0007-Update-test-result.patch
-0008-Drop-unfeasible-test.patch
