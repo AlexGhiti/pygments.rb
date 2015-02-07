@@ -1,3 +1,16 @@
+ruby-pygments.rb (0.5.4~ds1-2) unstable; urgency=medium
+
+  * Team upload
+  * fix tests (Closes: #775631):
+    - test_highlight_works_with_larger_files: instead of testing for an exact
+      amount of bytes, pass with there are more than 400,000 of them.
+      (debian/patches/0007-Update-test-result.patch)
+    - test_highlight_works_with_single_character_input: removed, since the
+      underlying Python code does not support that use case.
+      (debian/patches/0008-Drop-unfeasible-test.patch)
+
+ -- Antonio Terceiro <terceiro@debian.org>  Wed, 04 Feb 2015 19:43:57 -0200
+
 ruby-pygments.rb (0.5.4~ds1-1.1) unstable; urgency=medium
 
   * Non-maintainer upload.
