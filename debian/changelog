@@ -1,3 +1,13 @@
+ruby-pygments.rb (0.5.4~ds1-3) unstable; urgency=medium
+
+  * Team upload.
+  * Reverted the previous upload completely, and acknowledged the NMU in
+    0.5.4~ds1-1.1 by Tomasz Buchert (Closes: #768615).
+  * Update debian/patches/0007-Update-test-result.patch to fix current FTBFS
+    (and properly Closes: #775631).
+
+ -- Antonio Terceiro <terceiro@debian.org>  Sat, 07 Feb 2015 13:17:48 -0200
+
 ruby-pygments.rb (0.5.4~ds1-2) unstable; urgency=medium
 
   * Team upload
