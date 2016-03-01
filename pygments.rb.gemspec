@@ -7,13 +7,14 @@ Gem::Specification.new do |s|
   s.summary = 'pygments wrapper for ruby'
   s.description = 'pygments.rb exposes the pygments syntax highlighter to Ruby'
 
-  s.homepage = 'http://github.com/tmm1/pygments.rb'
+  s.homepage = 'https://github.com/tmm1/pygments.rb'
   s.has_rdoc = false
 
   s.authors = ['Aman Gupta', 'Ted Nyman']
   s.email = ['aman@tmm1.net']
+  s.license = 'MIT'
 
-  s.add_dependency 'yajl-ruby',   '~> 1.1.0'
+  s.add_dependency 'yajl-ruby',   '~> 1.2.0'
   s.add_dependency 'posix-spawn', '~> 0.3.6'
   s.add_development_dependency 'rake-compiler', '~> 0.7.6'
 
