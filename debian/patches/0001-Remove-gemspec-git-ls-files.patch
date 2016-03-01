@@ -6,11 +6,9 @@ From:Per Andersson <avtobiff@gmail.com>
  pygments.rb.gemspec |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/pygments.rb.gemspec b/pygments.rb.gemspec
-index 2968764..3eb63c9 100644
 --- a/pygments.rb.gemspec
 +++ b/pygments.rb.gemspec
-@@ -20,5 +20,5 @@ Gem::Specification.new do |s|
+@@ -21,5 +21,5 @@
    # s.extensions = ['ext/extconf.rb']
    s.require_paths = ['lib']
  

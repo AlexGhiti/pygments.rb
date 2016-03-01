@@ -7,7 +7,7 @@ From:Per Andersson <avtobiff@gmail.com>
 
 --- a/lib/pygments/popen.rb
 +++ b/lib/pygments/popen.rb
-@@ -119,7 +119,10 @@
+@@ -131,7 +131,10 @@
      # Returns an array of lexers
      def lexers
        begin
@@ -16,6 +16,6 @@ From:Per Andersson <avtobiff@gmail.com>
 +        upstream_file = File.expand_path('../../../lexers', __FILE__)
 +        debian_file = '/usr/share/ruby-pygments.rb/lexers'
 +        lexer_file = File.exists?(debian_file) ? debian_file : upstream_file
-         raw = File.open(lexer_file, "r").read
+         raw = File.open(lexer_file, "rb").read
          Marshal.load(raw)
        rescue Errno::ENOENT
