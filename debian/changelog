@@ -1,3 +1,15 @@
+ruby-pygments.rb (0.6.3-1) unstable; urgency=medium
+
+  * Team upload
+  * Imported Upstream version 0.6.3
+  * Fix watch file to not use githubredir anymore
+  * Bump Standards-Version to 3.9.7
+  * Use https in Vcs-* fields
+  * Refresh patches
+  * Adapt pygments tests to new version (Closes: #812940)
+
+ -- Cédric Boutillier <boutil@debian.org>  Tue, 01 Mar 2016 18:28:48 +0100
+
 ruby-pygments.rb (0.5.4~ds1-3) unstable; urgency=medium
 
   * Team upload.
