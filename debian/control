@@ -5,7 +5,7 @@ Uploaders: Per Andersson <avtobiff@gmail.com>,
 Section: ruby
 Priority: optional
 Build-Depends: debhelper (>= 9),
-               gem2deb (>= 0.3.0~),
+               gem2deb,
                bundler,
                python-pygments,
                rake-compiler,
