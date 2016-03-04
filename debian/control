@@ -4,9 +4,9 @@ Uploaders: Per Andersson <avtobiff@gmail.com>,
            Dominique Dumont <dod@debian.org>
 Section: ruby
 Priority: optional
-Build-Depends: debhelper (>= 9),
+Build-Depends: bundler,
+               debhelper (>= 9),
                gem2deb,
-               bundler,
                python-pygments,
                rake-compiler,
                ruby-posix-spawn,
@@ -19,13 +19,13 @@ XS-Ruby-Versions: all
 
 Package: ruby-pygments.rb
 Architecture: all
-Depends: ${misc:Depends},
-         ${shlibs:Depends},
-         python,
+Depends: python,
          python-pygments,
          ruby | ruby-interpreter,
          ruby-posix-spawn,
-         ruby-yajl
+         ruby-yajl,
+         ${misc:Depends},
+         ${shlibs:Depends}
 Provides: ruby-pygments
 Description: pygments wrapper for Ruby
  A Ruby wrapper for the Python pygments syntax highlighter.
