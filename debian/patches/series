@@ -7,3 +7,4 @@
 0007-Update-test-result.patch
 0008-fix_test_pygments.patch
 0009-adapt-to-new-pygments.patch
+0010-no-relative-path-for-require-in-tests.patch

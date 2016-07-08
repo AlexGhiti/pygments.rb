@@ -1,0 +1,24 @@
+From: =?utf-8?q?C=C3=A9dric_Boutillier?= <boutil@debian.org>
+Date: Fri, 8 Jul 2016 14:40:06 +0200
+Subject: no relative path for require in tests
+
+Let the interpreter find the library with loadpath in tests
+So that the tests can be run with the installed package (autpkgtest)
+Forwarded: no
+---
+ test/test_pygments.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/test/test_pygments.rb b/test/test_pygments.rb
+index 14f6d3b..f961cd8 100644
+--- a/test/test_pygments.rb
++++ b/test/test_pygments.rb
+@@ -1,7 +1,7 @@
+ #coding: utf-8
+ 
+ require 'test/unit'
+-require File.join(File.dirname(__FILE__), '..', '/lib/pygments.rb')
++require 'pygments'
+ ENV['mentos-test'] = "yes"
+ 
+ P = Pygments
