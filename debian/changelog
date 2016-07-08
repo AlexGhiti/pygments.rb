@@ -1,3 +1,15 @@
+ruby-pygments.rb (0.6.3-2) unstable; urgency=medium
+
+  * Team upload
+  * Remove version in the gem2deb build-dependency
+  * Use https:// in Vcs-* fields
+  * Run wrap-and-sort on packaging files
+  * Add patch to work with pygments 2.1+ (Closes: #830400)
+  * Bump Standards-Version to 3.9.8
+  * Set Testsuite to autopkgtest-pkg-ruby
+
+ -- Cédric Boutillier <boutil@debian.org>  Fri, 08 Jul 2016 13:49:11 +0200
+
 ruby-pygments.rb (0.6.3-1) unstable; urgency=medium
 
   * Team upload
