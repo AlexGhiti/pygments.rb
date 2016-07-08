@@ -7,6 +7,8 @@ ruby-pygments.rb (0.6.3-2) unstable; urgency=medium
   * Add patch to work with pygments 2.1+ (Closes: #830400)
   * Bump Standards-Version to 3.9.8
   * Set Testsuite to autopkgtest-pkg-ruby
+  * Amend 0001-Remove-gemspec-git-ls-files.patch to not use relative path to
+    load the version number from gemspecs  
 
  -- Cédric Boutillier <boutil@debian.org>  Fri, 08 Jul 2016 13:49:11 +0200
 
