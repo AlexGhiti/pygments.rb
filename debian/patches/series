@@ -6,3 +6,4 @@
 0006-Invoke-mentos-directly-on-GNU-Linux.patch
 0007-Update-test-result.patch
 0008-fix_test_pygments.patch
+0009-adapt-to-new-pygments.patch

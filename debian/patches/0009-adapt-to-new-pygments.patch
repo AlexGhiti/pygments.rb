@@ -1,0 +1,42 @@
+From: =?utf-8?q?C=C3=A9dric_Boutillier?= <boutil@debian.org>
+Date: Fri, 8 Jul 2016 13:25:56 +0200
+Subject: adapt to new pygments
+
+ the new version of pygments 2.1.1 adds empty span blocks
+ This patch adapts the tests to the new convention
+Bug-Debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=830400
+Bug: https://github.com/tmm1/pygments.rb/issues/160
+Forwarded: no
+---
+ test/test_pygments.rb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/test/test_pygments.rb b/test/test_pygments.rb
+index 0ea16bb..14f6d3b 100644
+--- a/test/test_pygments.rb
++++ b/test/test_pygments.rb
+@@ -20,13 +20,13 @@ class PygmentsHighlightTest < Test::Unit::TestCase
+   def test_full_html_highlight
+     code = P.highlight(RUBY_CODE)
+     assert_match '<span class="ch">#!/usr/bin/ruby</span>', code
+-    assert_equal "<div class=\"highlight\"><pre><span class=\"ch\">#!/usr/bin/ruby</span>\n<span class=\"nb\">puts</span> <span class=\"s1\">&#39;foo&#39;</span>\n</pre></div>", code
++    assert_equal "<div class=\"highlight\"><pre><span></span><span class=\"ch\">#!/usr/bin/ruby</span>\n<span class=\"nb\">puts</span> <span class=\"s1\">&#39;foo&#39;</span>\n</pre></div>", code
+   end
+ 
+   def test_full_table_highlight
+     code = P.highlight(RUBY_CODE, :options => {:linenos => true})
+     assert_match '<span class="ch">#!/usr/bin/ruby</span>', code
+-    assert_equal "<table class=\"highlighttable\"><tr><td class=\"linenos\"><div class=\"linenodiv\"><pre>1\n2</pre></div></td><td class=\"code\"><div class=\"highlight\"><pre><span class=\"ch\">#!/usr/bin/ruby</span>\n<span class=\"nb\">puts</span> <span class=\"s1\">&#39;foo&#39;</span>\n</pre></div>\n</td></tr></table>", code
++    assert_equal "<table class=\"highlighttable\"><tr><td class=\"linenos\"><div class=\"linenodiv\"><pre>1\n2</pre></div></td><td class=\"code\"><div class=\"highlight\"><pre><span></span><span class=\"ch\">#!/usr/bin/ruby</span>\n<span class=\"nb\">puts</span> <span class=\"s1\">&#39;foo&#39;</span>\n</pre></div>\n</td></tr></table>", code
+   end
+ 
+   def test_highlight_works_with_larger_files
+@@ -59,7 +59,7 @@ class PygmentsHighlightTest < Test::Unit::TestCase
+   def test_highlight_works_on_utf8_all_chars_automatically
+     code = P.highlight('def foo: # ø', :lexer => 'py')
+ 
+-    assert_equal '<div class="highlight"><pre><span clas', code[0,38]
++    assert_equal '<div class="highlight"><pre><span', code[0,33]
+   end
+ 
+   def test_highlight_works_with_multiple_utf8
