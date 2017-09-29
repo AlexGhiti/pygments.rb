@@ -1,3 +1,13 @@
+ruby-pygments.rb (1.2.0-1) UNRELEASED; urgency=medium
+
+  * New upstream version 1.2.0
+  * Refresh patches
+  * Add Set-reasonable-upper-limit-to-RLIMIT_NOFILE.patch to avoid closing too
+    many files when mentos starts (Closes: #876768)
+  * Bump Standards-Version to 4.1.0 (no changes needed)
+
+ -- Cédric Boutillier <boutil@debian.org>  Fri, 29 Sep 2017 23:02:14 +0200
+
 ruby-pygments.rb (0.6.3-2) unstable; urgency=medium
 
   * Team upload
