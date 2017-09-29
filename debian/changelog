@@ -1,5 +1,6 @@
-ruby-pygments.rb (1.2.0-1) UNRELEASED; urgency=medium
+ruby-pygments.rb (1.2.0-1) unstable; urgency=medium
 
+  * Team upload
   * New upstream version 1.2.0
   * Refresh patches
   * Add Set-reasonable-upper-limit-to-RLIMIT_NOFILE.patch to avoid closing too
@@ -7,7 +8,7 @@ ruby-pygments.rb (1.2.0-1) UNRELEASED; urgency=medium
   * Bump Standards-Version to 4.1.0 (no changes needed)
   * Depend on ruby-multi-json
 
- -- Cédric Boutillier <boutil@debian.org>  Fri, 29 Sep 2017 23:02:14 +0200
+ -- Cédric Boutillier <boutil@debian.org>  Fri, 29 Sep 2017 23:43:08 +0200
 
 ruby-pygments.rb (0.6.3-2) unstable; urgency=medium
 
