@@ -10,15 +10,15 @@ Forwarded: no
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/test/test_pygments.rb b/test/test_pygments.rb
-index 14f6d3b..f961cd8 100644
+index 23416ba..4dcdbff 100644
 --- a/test/test_pygments.rb
 +++ b/test/test_pygments.rb
-@@ -1,7 +1,7 @@
- #coding: utf-8
+@@ -2,7 +2,7 @@
+ # frozen_string_literal: true
  
  require 'test/unit'
 -require File.join(File.dirname(__FILE__), '..', '/lib/pygments.rb')
 +require 'pygments'
  ENV['mentos-test'] = "yes"
  
- P = Pygments
+ 

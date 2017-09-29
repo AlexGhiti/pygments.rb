@@ -1,12 +1,14 @@
-Description:Remove gemspec git ls files.patch
- Removed call to 'git ls-files' from gem spec.
- Use also a require without path to load the version number
-Subject:Remove gemspec git ls-files
-From:Per Andersson <avtobiff@gmail.com>
----
- pygments.rb.gemspec |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+From: Debian Ruby Extras Maintainers
+ <pkg-ruby-extras-maintainers@lists.alioth.debian.org>
+Date: Fri, 29 Sep 2017 22:48:27 +0200
+Subject: Remove-gemspec-git-ls-files
 
+---
+ pygments.rb.gemspec | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/pygments.rb.gemspec b/pygments.rb.gemspec
+index 4a7cac2..99e01a6 100644
 --- a/pygments.rb.gemspec
 +++ b/pygments.rb.gemspec
 @@ -1,4 +1,8 @@
@@ -19,10 +21,10 @@ From:Per Andersson <avtobiff@gmail.com>
  
  Gem::Specification.new do |s|
    s.name = 'pygments.rb'
-@@ -21,5 +25,5 @@
+@@ -21,5 +25,5 @@ Gem::Specification.new do |s|
    # s.extensions = ['ext/extconf.rb']
    s.require_paths = ['lib']
  
--  s.files = `git ls-files`.split("\n")
-+#  s.files = `git ls-files`.split("\n")
+-  s.files = `git ls-files`.split("\n").select { |f| !File.symlink?(f) }
++  #s.files = `git ls-files`.split("\n").select { |f| !File.symlink?(f) }
  end

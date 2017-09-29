@@ -1,10 +1,11 @@
-Description:use pygments provided by Debian
- Don t set PYGMENTS_PATH and remove sys.path appends.patch
-Subject:Don't set PYGMENTS_PATH and remove sys.path appends
-From:Per Andersson <avtobiff@gmail.com>
+From: Debian Ruby Extras Maintainers
+ <pkg-ruby-extras-maintainers@lists.alioth.debian.org>
+Date: Fri, 29 Sep 2017 22:48:27 +0200
+Subject: Don-t-set-PYGMENTS_PATH-and-remove-sys.path-appends
+
 ---
- lib/pygments/mentos.py |   15 ++++++++-------
- lib/pygments/popen.rb  |    5 +++--
+ lib/pygments/mentos.py | 15 ++++++++-------
+ lib/pygments/popen.rb  |  5 +++--
  2 files changed, 11 insertions(+), 9 deletions(-)
 
 diff --git a/lib/pygments/mentos.py b/lib/pygments/mentos.py
@@ -36,20 +37,20 @@ index c0d6e88..7ee74a9 100755
  import pygments
  from pygments import lexers, formatters, styles, filters
 diff --git a/lib/pygments/popen.rb b/lib/pygments/popen.rb
-index 1bb2c06..cc7ac8b 100644
+index 59942a7..298842e 100644
 --- a/lib/pygments/popen.rb
 +++ b/lib/pygments/popen.rb
-@@ -19,7 +19,7 @@ module Pygments
+@@ -24,7 +24,7 @@ module Pygments
      # Get things started by opening a pipe to mentos (the freshmaker), a
      # Python process that talks to the Pygments library. We'll talk back and
      # forth across this pipe.
 -    def start(pygments_path = File.expand_path('../../../vendor/pygments-main/', __FILE__))
 +    def start #(pygments_path = File.expand_path('../../../vendor/pygments-main/', __FILE__))
-       is_windows = RUBY_PLATFORM =~ /mswin|mingw/
        begin
-         @log = Logger.new(ENV['MENTOS_LOG'] ||= is_windows ? 'NUL:' : '/dev/null')
-@@ -29,7 +29,8 @@ module Pygments
-         @log = Logger.new(is_windows ? 'NUL:' : '/dev/null')
+         @log = Logger.new(ENV['MENTOS_LOG'] ||= File::NULL)
+         @log.level = Logger::INFO
+@@ -33,7 +33,8 @@ module Pygments
+         @log = Logger.new(File::NULL)
        end
  
 -      ENV['PYGMENTS_PATH'] = pygments_path

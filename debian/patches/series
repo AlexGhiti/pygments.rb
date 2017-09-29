@@ -4,7 +4,5 @@
 0004-Remove-unshipped-custom-lexers.patch
 0005-Use-proper-python-shebang.patch
 0006-Invoke-mentos-directly-on-GNU-Linux.patch
-0007-Update-test-result.patch
-0008-fix_test_pygments.patch
-0009-adapt-to-new-pygments.patch
-0010-no-relative-path-for-require-in-tests.patch
+0007-no-relative-path-for-require-in-tests.patch
+0008-Set-reasonable-upper-limit-to-RLIMIT_NOFILE.patch

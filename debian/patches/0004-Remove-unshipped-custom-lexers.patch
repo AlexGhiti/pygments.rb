@@ -1,9 +1,16 @@
-Description: Remove unshipped custom lexers
-Subject: Remove unshipped custom lexers
 From: Per Andersson <avtobiff@gmail.com>
+Date: Fri, 29 Sep 2017 22:48:27 +0200
+Subject: Remove unshipped custom lexers
+
+---
+ lib/pygments/popen.rb | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/lib/pygments/popen.rb b/lib/pygments/popen.rb
+index 3e43138..a0ed512 100644
 --- a/lib/pygments/popen.rb
 +++ b/lib/pygments/popen.rb
-@@ -154,11 +154,11 @@
+@@ -172,11 +172,11 @@ module Pygments
            :filenames => lxr[2],
            :mimetypes => lxr[3]
          }
