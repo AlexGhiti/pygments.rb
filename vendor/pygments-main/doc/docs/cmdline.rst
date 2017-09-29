@@ -99,6 +99,23 @@ The ``-N`` option guesses a lexer name for a given filename, so that ::
 will print out ``python``.  It won't highlight anything yet.  If no specific
 lexer is known for that filename, ``text`` is printed.
 
+Custom Lexers and Formatters
+----------------------------
+
+.. versionadded:: 2.2
+
+The ``-x`` flag enables custom lexers and formatters to be loaded
+from files relative to the current directory. Create a file with a class named
+CustomLexer or CustomFormatter, then specify it on the command line::
+
+    $ pygmentize -l your_lexer.py -f your_formatter.py -x
+
+You can also specify the name of your class with a colon::
+
+    $ pygmentize -l your_lexer.py:SomeLexer -x
+
+For more information, see :doc:`the Pygments documentation on Lexer development
+<lexerdevelopment>`.
 
 Getting help
 ------------
@@ -136,9 +153,13 @@ Pygments tries to be smart regarding encodings in the formatting process:
 * If you give an ``outencoding`` option, it will override ``encoding``
   as the output encoding.
 
+* If you give an ``inencoding`` option, it will override ``encoding``
+  as the input encoding.
+
 * If you don't give an encoding and have given an output file, the default
-  encoding for lexer and formatter is ``latin1`` (which will pass through
-  all non-ASCII characters).
+  encoding for lexer and formatter is the terminal encoding or the default
+  locale encoding of the system.  As a last resort, ``latin1`` is used (which
+  will pass through all non-ASCII characters).
 
 * If you don't give an encoding and haven't given an output file (that means
   output is written to the console), the default encoding for lexer and
