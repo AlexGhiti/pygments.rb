@@ -5,6 +5,7 @@ ruby-pygments.rb (1.2.0-1) UNRELEASED; urgency=medium
   * Add Set-reasonable-upper-limit-to-RLIMIT_NOFILE.patch to avoid closing too
     many files when mentos starts (Closes: #876768)
   * Bump Standards-Version to 4.1.0 (no changes needed)
+  * Depend on ruby-multi-json
 
  -- Cédric Boutillier <boutil@debian.org>  Fri, 29 Sep 2017 23:02:14 +0200
 

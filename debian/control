@@ -9,6 +9,7 @@ Build-Depends: bundler,
                gem2deb,
                python-pygments,
                rake-compiler,
+               ruby-multi-json,
                ruby-posix-spawn,
                ruby-yajl
 Standards-Version: 4.1.0
@@ -23,6 +24,7 @@ Architecture: all
 Depends: python,
          python-pygments,
          ruby | ruby-interpreter,
+         ruby-multi-json,
          ruby-posix-spawn,
          ruby-yajl,
          ${misc:Depends},
