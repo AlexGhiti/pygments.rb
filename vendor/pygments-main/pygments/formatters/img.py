@@ -5,15 +5,18 @@
 
     Formatter for Pixmap output.
 
-    :copyright: Copyright 2006-2014 by the Pygments team, see AUTHORS.
+    :copyright: Copyright 2006-2017 by the Pygments team, see AUTHORS.
     :license: BSD, see LICENSE for details.
 """
 
+import os
 import sys
 
 from pygments.formatter import Formatter
 from pygments.util import get_bool_opt, get_int_opt, get_list_opt, \
     get_choice_opt, xrange
+
+import subprocess
 
 # Import this carefully
 try:
@@ -45,6 +48,7 @@ STYLES = {
 # A sane default for modern systems
 DEFAULT_FONT_NAME_NIX = 'Bitstream Vera Sans Mono'
 DEFAULT_FONT_NAME_WIN = 'Courier New'
+DEFAULT_FONT_NAME_MAC = 'Courier New'
 
 
 class PilNotAvailable(ImportError):
@@ -69,23 +73,28 @@ class FontManager(object):
             if not font_name:
                 self.font_name = DEFAULT_FONT_NAME_WIN
             self._create_win()
+        elif sys.platform.startswith('darwin'):
+            if not font_name:
+                self.font_name = DEFAULT_FONT_NAME_MAC
+            self._create_mac()
         else:
             if not font_name:
                 self.font_name = DEFAULT_FONT_NAME_NIX
             self._create_nix()
 
     def _get_nix_font_path(self, name, style):
-        try:
-            from commands import getstatusoutput
-        except ImportError:
-            from subprocess import getstatusoutput
-        exit, out = getstatusoutput('fc-list "%s:style=%s" file' %
-                                    (name, style))
-        if not exit:
-            lines = out.splitlines()
-            if lines:
-                path = lines[0].strip().strip(':')
-                return path
+        proc = subprocess.Popen(['fc-list', "%s:style=%s" % (name, style), 'file'],
+                                stdout=subprocess.PIPE, stderr=None)
+        stdout, _ = proc.communicate()
+        if proc.returncode == 0:
+            lines = stdout.splitlines()
+            for line in lines:
+                if line.startswith(b'Fontconfig warning:'):
+                    continue
+                path = line.decode().strip().strip(':')
+                if path:
+                    return path
+            return None
 
     def _create_nix(self):
         for name in STYLES['NORMAL']:
@@ -99,6 +108,37 @@ class FontManager(object):
         for style in ('ITALIC', 'BOLD', 'BOLDITALIC'):
             for stylename in STYLES[style]:
                 path = self._get_nix_font_path(self.font_name, stylename)
+                if path is not None:
+                    self.fonts[style] = ImageFont.truetype(path, self.font_size)
+                    break
+            else:
+                if style == 'BOLDITALIC':
+                    self.fonts[style] = self.fonts['BOLD']
+                else:
+                    self.fonts[style] = self.fonts['NORMAL']
+
+    def _get_mac_font_path(self, font_map, name, style):
+        return font_map.get((name + ' ' + style).strip().lower())
+
+    def _create_mac(self):
+        font_map = {}
+        for font_dir in (os.path.join(os.getenv("HOME"), 'Library/Fonts/'),
+                         '/Library/Fonts/', '/System/Library/Fonts/'):
+            font_map.update(
+                ((os.path.splitext(f)[0].lower(), os.path.join(font_dir, f))
+                    for f in os.listdir(font_dir) if f.lower().endswith('ttf')))
+
+        for name in STYLES['NORMAL']:
+            path = self._get_mac_font_path(font_map, self.font_name, name)
+            if path is not None:
+                self.fonts['NORMAL'] = ImageFont.truetype(path, self.font_size)
+                break
+        else:
+            raise FontNotFound('No usable fonts named: "%s"' %
+                               self.font_name)
+        for style in ('ITALIC', 'BOLD', 'BOLDITALIC'):
+            for stylename in STYLES[style]:
+                path = self._get_mac_font_path(font_map, self.font_name, stylename)
                 if path is not None:
                     self.fonts[style] = ImageFont.truetype(path, self.font_size)
                     break
@@ -197,7 +237,7 @@ class ImageFormatter(Formatter):
         bold and italic fonts will be generated.  This really should be a
         monospace font to look sane.
 
-        Default: "Bitstream Vera Sans Mono"
+        Default: "Bitstream Vera Sans Mono" on Windows, Courier New on \*nix
 
     `font_size`
         The font size in points to be used.
@@ -295,6 +335,7 @@ class ImageFormatter(Formatter):
             raise PilNotAvailable(
                 'Python Imaging Library is required for this formatter')
         Formatter.__init__(self, **options)
+        self.encoding = 'latin1'  # let pygments.format() do the right thing
         # Read the style
         self.styles = dict(self.style)
         if self.style.background_color is None:
@@ -315,20 +356,20 @@ class ImageFormatter(Formatter):
         self.line_number_fg = options.get('line_number_fg', '#886')
         self.line_number_bg = options.get('line_number_bg', '#eed')
         self.line_number_chars = get_int_opt(options,
-                                        'line_number_chars', 2)
+                                             'line_number_chars', 2)
         self.line_number_bold = get_bool_opt(options,
-                                        'line_number_bold', False)
+                                             'line_number_bold', False)
         self.line_number_italic = get_bool_opt(options,
-                                        'line_number_italic', False)
+                                               'line_number_italic', False)
         self.line_number_pad = get_int_opt(options, 'line_number_pad', 6)
         self.line_numbers = get_bool_opt(options, 'line_numbers', True)
         self.line_number_separator = get_bool_opt(options,
-                                        'line_number_separator', True)
+                                                  'line_number_separator', True)
         self.line_number_step = get_int_opt(options, 'line_number_step', 1)
         self.line_number_start = get_int_opt(options, 'line_number_start', 1)
         if self.line_numbers:
             self.line_number_width = (self.fontw * self.line_number_chars +
-                                   self.line_number_pad * 2)
+                                      self.line_number_pad * 2)
         else:
             self.line_number_width = 0
         self.hl_lines = []
@@ -437,7 +478,7 @@ class ImageFormatter(Formatter):
             # quite complex.
             value = value.expandtabs(4)
             lines = value.splitlines(True)
-            #print lines
+            # print lines
             for i, line in enumerate(lines):
                 temp = line.rstrip('\n')
                 if temp:
@@ -478,9 +519,8 @@ class ImageFormatter(Formatter):
         draw = ImageDraw.Draw(im)
         recth = im.size[-1]
         rectw = self.image_pad + self.line_number_width - self.line_number_pad
-        draw.rectangle([(0, 0),
-                        (rectw, recth)],
-             fill=self.line_number_bg)
+        draw.rectangle([(0, 0), (rectw, recth)],
+                       fill=self.line_number_bg)
         draw.line([(rectw, 0), (rectw, recth)], fill=self.line_number_fg)
         del draw
 

@@ -1,10 +1,13 @@
-#coding: utf-8
+# coding: utf-8
+# frozen_string_literal: true
 
 require 'test/unit'
 require File.join(File.dirname(__FILE__), '..', '/lib/pygments.rb')
 ENV['mentos-test'] = "yes"
 
+
 P = Pygments
+PE = Pygments.engine
 
 class PygmentsHighlightTest < Test::Unit::TestCase
   RUBY_CODE = "#!/usr/bin/ruby\nputs 'foo'"
@@ -13,26 +16,26 @@ class PygmentsHighlightTest < Test::Unit::TestCase
 
   def test_highlight_defaults_to_html
     code = P.highlight(RUBY_CODE)
-    assert_match '<span class="c1">#!/usr/bin/ruby</span>', code
+    assert_match '<span class="ch">#!/usr/bin/ruby</span>', code
     assert_equal '<div class', code[0..9]
   end
 
   def test_full_html_highlight
     code = P.highlight(RUBY_CODE)
-    assert_match '<span class="c1">#!/usr/bin/ruby</span>', code
-    assert_equal "<div class=\"highlight\"><pre><span class=\"c1\">#!/usr/bin/ruby</span>\n<span class=\"nb\">puts</span> <span class=\"s1\">&#39;foo&#39;</span>\n</pre></div>", code
+    assert_match '<span class="ch">#!/usr/bin/ruby</span>', code
+    assert_equal "<div class=\"highlight\"><pre><span></span><span class=\"ch\">#!/usr/bin/ruby</span>\n<span class=\"nb\">puts</span> <span class=\"s1\">&#39;foo&#39;</span>\n</pre></div>", code
   end
 
   def test_full_table_highlight
     code = P.highlight(RUBY_CODE, :options => {:linenos => true})
-    assert_match '<span class="c1">#!/usr/bin/ruby</span>', code
-    assert_equal "<table class=\"highlighttable\"><tr><td class=\"linenos\"><div class=\"linenodiv\"><pre>1\n2</pre></div></td><td class=\"code\"><div class=\"highlight\"><pre><span class=\"c1\">#!/usr/bin/ruby</span>\n<span class=\"nb\">puts</span> <span class=\"s1\">&#39;foo&#39;</span>\n</pre></div>\n</td></tr></table>", code
+    assert_match '<span class="ch">#!/usr/bin/ruby</span>', code
+    assert_equal "<table class=\"highlighttable\"><tr><td class=\"linenos\"><div class=\"linenodiv\"><pre>1\n2</pre></div></td><td class=\"code\"><div class=\"highlight\"><pre><span></span><span class=\"ch\">#!/usr/bin/ruby</span>\n<span class=\"nb\">puts</span> <span class=\"s1\">&#39;foo&#39;</span>\n</pre></div>\n</td></tr></table>", code
   end
 
   def test_highlight_works_with_larger_files
     code = P.highlight(REDIS_CODE)
     assert_match 'used_memory_peak_human', code
-    assert_equal 455203, code.bytesize.to_i
+    assert_equal 458511, code.bytesize.to_i
   end
 
   def test_returns_nil_on_timeout
@@ -59,7 +62,7 @@ class PygmentsHighlightTest < Test::Unit::TestCase
   def test_highlight_works_on_utf8_all_chars_automatically
     code = P.highlight('def foo: # ø', :lexer => 'py')
 
-    assert_equal '<div class="highlight"><pre><span clas', code[0,38]
+    assert_equal "<div class=\"highlight\"><pre><span></sp", code[0,38]
   end
 
   def test_highlight_works_with_multiple_utf8
@@ -89,28 +92,39 @@ class PygmentsHighlightTest < Test::Unit::TestCase
 
   def test_highlight_works_with_single_character_input
     code = P.highlight("a")
-    assert_match 'a</span>', code
+    assert_match "a\n</pre>", code
   end
 
   def test_highlight_works_with_trailing_newline
     code = P.highlight(RUBY_CODE_TRAILING_NEWLINE)
-    assert_match '<span class="c1">#!/usr/bin/ruby</span>', code
+    assert_match '<span class="ch">#!/usr/bin/ruby</span>', code
   end
 
   def test_highlight_works_with_multiple_newlines
     code = P.highlight(RUBY_CODE_TRAILING_NEWLINE + "derp\n\n")
-    assert_match '<span class="c1">#!/usr/bin/ruby</span>', code
+    assert_match '<span class="ch">#!/usr/bin/ruby</span>', code
   end
 
   def test_highlight_works_with_trailing_cr
     code = P.highlight(RUBY_CODE_TRAILING_NEWLINE + "\r")
-    assert_match '<span class="c1">#!/usr/bin/ruby</span>', code
+    assert_match '<span class="ch">#!/usr/bin/ruby</span>', code
   end
 
   def test_highlight_still_works_with_invalid_code
     code = P.highlight("importr python;    wat?", :lexer => 'py')
     assert_match ">importr</span>", code
   end
+
+  def test_highlight_on_multi_threads
+    10.times.map do
+      Thread.new do
+        test_full_html_highlight
+      end
+    end.each do |thread|
+      thread.join
+    end
+  end
+
 end
 
 # Philosophically, I'm not the biggest fan of testing private
@@ -118,44 +132,44 @@ end
 # over the pipe I think it's necessary and informative.
 class PygmentsValidityTest < Test::Unit::TestCase
   def test_add_ids_with_padding
-    res = P.send(:add_ids, "herp derp baz boo foo", "ABCDEFGH")
+    res = PE.send(:add_ids, "herp derp baz boo foo", "ABCDEFGH")
     assert_equal "ABCDEFGH  herp derp baz boo foo  ABCDEFGH", res
   end
 
   def test_add_ids_on_empty_string
-    res = P.send(:add_ids, "", "ABCDEFGH")
+    res = PE.send(:add_ids, "", "ABCDEFGH")
     assert_equal "ABCDEFGH    ABCDEFGH", res
   end
 
   def test_add_ids_with_unicode_data
-    res = P.send(:add_ids, "# ø ø ø", "ABCDEFGH")
+    res = PE.send(:add_ids, "# ø ø ø", "ABCDEFGH")
     assert_equal "ABCDEFGH  # ø ø ø  ABCDEFGH", res
   end
 
   def test_add_ids_with_starting_slashes
-    res = P.send(:add_ids, '\\# ø ø ø..//', "ABCDEFGH")
+    res = PE.send(:add_ids, '\\# ø ø ø..//', "ABCDEFGH")
     assert_equal "ABCDEFGH  \\# ø ø ø..//  ABCDEFGH", res
   end
 
   def test_get_fixed_bits_from_header
-    bits = P.send(:get_fixed_bits_from_header, '{"herp": "derp"}')
+    bits = PE.send(:get_fixed_bits_from_header, '{"herp": "derp"}')
     assert_equal "00000000000000000000000000010000", bits
   end
 
   def test_get_fixed_bits_from_header_works_with_large_headers
-    bits = P.send(:get_fixed_bits_from_header, '{"herp": "derp"}' * 10000)
+    bits = PE.send(:get_fixed_bits_from_header, '{"herp": "derp"}' * 10000)
     assert_equal "00000000000000100111000100000000", bits
   end
 
   def test_size_check
     size = "00000000000000000000000000100110"
-    res = P.send(:size_check, size)
+    res = PE.send(:size_check, size)
     assert_equal res, true
   end
 
   def test_size_check_bad
     size = "some random thing"
-    res = P.send(:size_check, size)
+    res = PE.send(:size_check, size)
     assert_equal res, false
   end
 end
@@ -230,7 +244,7 @@ class PygmentsLexerClassTest < Test::Unit::TestCase
     assert_equal P::Lexer['Ruby'], P::Lexer.find_by_mimetype('text/x-ruby')
     assert_equal P::Lexer['JSON'], P::Lexer.find_by_mimetype('application/json')
     assert_equal P::Lexer['Python'], P::Lexer.find_by_mimetype('text/x-python')
-  end
+ end
 end
 
 
@@ -238,19 +252,19 @@ class PygmentsCssTest < Test::Unit::TestCase
   include Pygments
 
   def test_css
-    assert_match /^\.err \{/, P.css
+    assert_match(/^\.err \{/, P.css)
   end
 
   def test_css_prefix
-    assert_match /^\.highlight \.err \{/, P.css('.highlight')
+    assert_match(/^\.highlight \.err \{/, P.css('.highlight'))
   end
 
   def test_css_options
-    assert_match /^\.codeerr \{/, P.css(:classprefix => 'code')
+    assert_match(/^\.codeerr \{/, P.css(:classprefix => 'code'))
   end
 
   def test_css_prefix_and_options
-    assert_match /^\.mycode \.codeerr \{/, P.css('.mycode', :classprefix => 'code')
+    assert_match(/^\.mycode \.codeerr \{/, P.css('.mycode', :classprefix => 'code'))
   end
 
   def test_css_default

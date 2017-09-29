@@ -1,6 +1,8 @@
 # coding: utf-8
-require 'posix/spawn'
-require 'yajl'
+# frozen_string_literal: true
+
+require 'open3'
+require 'multi_json'
 require 'timeout'
 require 'logger'
 require 'time'
@@ -12,21 +14,23 @@ end
 # Pygments provides access to the Pygments library via a pipe and a long-running
 # Python process.
 module Pygments
-  module Popen
-    include POSIX::Spawn
-    extend self
+  class Popen
+
+    def popen4(cmd)
+      stdin, stdout, stderr, wait_thr = Open3.popen3(cmd)
+      [wait_thr[:pid], stdin, stdout, stderr]
+    end
 
     # Get things started by opening a pipe to mentos (the freshmaker), a
     # Python process that talks to the Pygments library. We'll talk back and
     # forth across this pipe.
     def start(pygments_path = File.expand_path('../../../vendor/pygments-main/', __FILE__))
-      is_windows = RUBY_PLATFORM =~ /mswin|mingw/
       begin
-        @log = Logger.new(ENV['MENTOS_LOG'] ||= is_windows ? 'NUL:' : '/dev/null')
+        @log = Logger.new(ENV['MENTOS_LOG'] ||= File::NULL)
         @log.level = Logger::INFO
         @log.datetime_format = "%Y-%m-%d %H:%M "
       rescue
-        @log = Logger.new(is_windows ? 'NUL:' : '/dev/null')
+        @log = Logger.new(File::NULL)
       end
 
       ENV['PYGMENTS_PATH'] = pygments_path
@@ -36,18 +40,32 @@ module Pygments
 
       # A pipe to the mentos python process. #popen4 gives us
       # the pid and three IO objects to write and read.
-      python_path = python_binary(is_windows)
-      script = "#{python_path} #{File.expand_path('../mentos.py', __FILE__)}"
+      script = "#{python_binary} #{File.expand_path('../mentos.py', __FILE__)}"
       @pid, @in, @out, @err = popen4(script)
-      @log.info "[#{Time.now.iso8601}] Starting pid #{@pid.to_s} with fd #{@out.to_i.to_s}."
+      @log.info "Starting pid #{@pid} with fd #{@out.to_i} and python #{python_binary}."
+    end
+
+    def windows?
+      RUBY_PLATFORM =~ /mswin|mingw/
+    end
+
+    def python_binary
+      @python_binary ||= find_python_binary
+    end
+
+    def python_binary=(python_bin)
+      @python_bin = python_bin
     end
 
     # Detect a suitable Python binary to use.
-    def python_binary(is_windows)
-      if is_windows && which('py')
+    # Or return $PYGMENTS_RB_PYTHON if it's exists.
+    def find_python_binary
+      if ENV['PYGMENTS_RB_PYTHON']
+        return which(ENV['PYGMENTS_RB_PYTHON'])
+      elsif windows? && which('py')
         return 'py -2'
       end
-      return which('python2') || 'python'
+      return which('python2') || which('python')
     end
 
     # Cross platform which command
@@ -83,7 +101,7 @@ module Pygments
         rescue Errno::ESRCH, Errno::ECHILD
         end
       end
-      @log.info "[#{Time.now.iso8601}] Killing pid: #{@pid.to_s}. Reason: #{reason}"
+      @log.info "Killing pid: #{@pid.to_s}. Reason: #{reason}"
       @pid = nil
     end
 
@@ -97,7 +115,7 @@ module Pygments
     #
     # Returns true if the child is alive.
     def alive?
-      return true if @pid && Process.kill(0, @pid)
+      return true if defined?(@pid) && @pid && Process.kill(0, @pid)
       false
     rescue Errno::ENOENT, Errno::ESRCH
       false
@@ -123,11 +141,11 @@ module Pygments
 
 
     # Public: Get all lexers from a serialized array. This avoids needing to spawn
-    # mentos when it's not really needed (e.g,. one-off jobs, loading the Rails env, etc).
+    # mentos when it's not really needed (e.g., one-off jobs, loading the Rails env, etc).
     #
     # Should be preferred to #lexers!
     #
-    # Returns an array of lexers
+    # Returns an array of lexers.
     def lexers
       begin
         lexer_file = File.expand_path('../../../lexers', __FILE__)
@@ -140,7 +158,7 @@ module Pygments
 
     # Public: Get back all available lexers from mentos itself
     #
-    # Returns an array of lexers
+    # Returns an array of lexers.
     def lexers!
       mentos(:get_all_lexers).inject(Hash.new) do |hash, lxr|
         name = lxr[0]
@@ -199,7 +217,10 @@ module Pygments
     # Public: Highlight code.
     #
     # Takes a first-position argument of the code to be highlighted, and a
-    # second-position hash of various arguments specifiying highlighting properties.
+    # second-position hash of various arguments specifying highlighting properties.
+    #
+    # Returns the highlighted string
+    # or nil when the request to the Python process timed out.
     def highlight(code, opts={})
       # If the caller didn't give us any code, we have nothing to do,
       # so return right away.
@@ -246,7 +267,7 @@ module Pygments
 
           kwargs.freeze
           kwargs = kwargs.merge("fd" => @out.to_i, "id" => id, "bytes" => bytesize)
-          out_header = Yajl.dump(:method => method, :args => args, :kwargs => kwargs)
+          out_header = MultiJson.dump(:method => method, :args => args, :kwargs => kwargs)
 
           # Get the size of the header itself and write that.
           bits = get_fixed_bits_from_header(out_header)
@@ -254,6 +275,8 @@ module Pygments
 
           # mentos is now waiting for the header, and, potentially, code.
           write_data(out_header, code)
+
+          check_for_error
 
           # mentos will now return data to us. First it sends the header.
           header = get_header
@@ -266,7 +289,7 @@ module Pygments
         end
       rescue Timeout::Error
         # If we timeout, we need to clear out the pipe and start over.
-        @log.error "[#{Time.now.iso8601}] Timeout on a mentos #{method} call"
+        @log.error "Timeout on a mentos #{method} call"
         stop "Timeout on mentos #{method} call."
       end
 
@@ -275,32 +298,51 @@ module Pygments
     raise MentosError, "EPIPE"
     end
 
+    def check_for_error
+      return if @err.closed?
+
+      timeout_time = 0.25 # set a very little timeout so that we do not hang the parser
+
+      Timeout::timeout(timeout_time) do
+        error_msg = @err.read
+
+        unless error_msg.empty?
+          @log.error "Error running python script: #{error_msg}"
+          stop "Error running python script: #{error_msg}"
+          raise MentosError, error_msg
+        end
+      end
+    rescue Timeout::Error
+      # during the specified time no error were found
+      @err.close
+    end
+
 
     # Based on the header we receive, determine if we need
     # to read more bytes, and read those bytes if necessary.
     #
-    # Then, do a sanity check wih the ids.
+    # Then, do a sanity check with the ids.
     #
     # Returns a result — either highlighted text or metadata.
     def handle_header_and_return(header, id)
       if header
         header = header_to_json(header)
-        bytes = header["bytes"]
+        bytes = header[:bytes]
 
         # Read more bytes (the actual response body)
         res = @out.read(bytes.to_i)
 
-        if header["method"] == "highlight"
+        if header[:method] == "highlight"
           # Make sure we have a result back; else consider this an error.
           if res.nil?
-            @log.warn "[#{Time.now.iso8601}] No highlight result back from mentos."
+            @log.warn "No highlight result back from mentos."
             stop "No highlight result back from mentos."
             raise MentosError, "No highlight result back from mentos."
           end
 
           # Remove the newline from Python
           res = res[0..-2]
-          @log.info "[#{Time.now.iso8601}] Highlight in process."
+          @log.info "Highlight in process."
 
           # Get the id's
           start_id = res[0..7]
@@ -308,19 +350,19 @@ module Pygments
 
           # Sanity check.
           if not (start_id == id and end_id == id)
-            @log.error "[#{Time.now.iso8601}] ID's did not match. Aborting."
+            @log.error "ID's did not match. Aborting."
             stop "ID's did not match. Aborting."
             raise MentosError, "ID's did not match. Aborting."
           else
             # We're good. Remove the padding
             res = res[10..-11]
-            @log.info "[#{Time.now.iso8601}] Highlighting complete."
+            @log.info "Highlighting complete."
             res
           end
         end
         res
       else
-        @log.error "[#{Time.now.iso8601}] No header data back."
+        @log.error "No header data back."
         stop "No header data back."
         raise MentosError, "No header received back."
       end
@@ -331,17 +373,15 @@ module Pygments
     # id, with two padding also. This means we are sending over the 8 characters +
     # code + 8 characters.
     def add_ids(code, id)
-      code.freeze
-      code = id + "  #{code}  #{id}"
-      code
+      (id + "  #{code}  #{id}").freeze
     end
 
-    # Write data to mentos, the Python Process.
+    # Write data to mentos, the Python process.
     #
     # Returns nothing.
     def write_data(out_header, code=nil)
       @in.write(out_header)
-      @log.info "[#{Time.now.iso8601}] Out header: #{out_header.to_s}"
+      @log.info "Out header: #{out_header}"
       @in.write(code) if code
     end
 
@@ -365,7 +405,7 @@ module Pygments
 
         # Sanity check the size
         if not size_check(size)
-          @log.error "[#{Time.now.iso8601}] Size returned from mentos.py invalid."
+          @log.error "Size returned from mentos.py invalid."
           stop "Size returned from mentos.py invalid."
           raise MentosError, "Size returned from mentos.py invalid."
         end
@@ -373,10 +413,10 @@ module Pygments
         # Read the amount of bytes we should be expecting. We first
         # convert the string of bits into an integer.
         header_bytes = size.to_s.to_i(2) + 1
-        @log.info "[#{Time.now.iso8601}] Size in: #{size.to_s} (#{header_bytes.to_s})"
+        @log.info "Size in: #{size.to_s} (#{header_bytes.to_s})"
         @out.read(header_bytes)
       rescue
-        @log.error "[#{Time.now.iso8601}] Failed to get header."
+        @log.error "Failed to get header."
         stop "Failed to get header."
         raise MentosError, "Failed to get header."
       end
@@ -386,7 +426,7 @@ module Pygments
     # want them, text otherwise.
     def return_result(res, method)
       unless method == :lexer_name_for || method == :highlight || method == :css
-        res = Yajl.load(res, :symbolize_keys => true)
+        res = MultiJson.load(res, :symbolize_keys => true)
       end
       res = res.rstrip if res.class == String
       res
@@ -394,15 +434,15 @@ module Pygments
 
     # Convert a text header into JSON for easy access.
     def header_to_json(header)
-      @log.info "[#{Time.now.iso8601}] In header: #{header.to_s} "
-      header = Yajl.load(header)
+      @log.info "[In header: #{header} "
+      header = MultiJson.load(header, :symbolize_keys => true)
 
-      if header["error"]
+      if header[:error]
         # Raise this as a Ruby exception of the MentosError class.
         # Stop so we don't leave the pipe in an inconsistent state.
-        @log.error "[#{Time.now.iso8601}] Failed to convert header to JSON."
-        stop header["error"]
-        raise MentosError, header["error"]
+        @log.error "Failed to convert header to JSON."
+        stop header[:error]
+        raise MentosError, header[:error]
       else
         header
       end
@@ -412,7 +452,7 @@ module Pygments
       size = out_header.bytesize
 
       # Fixed 32 bits to represent the int. We return a string
-      # represenation: e.g, "00000000000000000000000000011110"
+      # representation: e.g, "00000000000000000000000000011110"
       Array.new(32) { |i| size[i] }.reverse!.join
     end
   end
