@@ -20,7 +20,7 @@ ruby-pygments.rb (0.6.3-2) unstable; urgency=medium
   * Bump Standards-Version to 3.9.8
   * Set Testsuite to autopkgtest-pkg-ruby
   * Amend 0001-Remove-gemspec-git-ls-files.patch to not use relative path to
-    load the version number from gemspecs  
+    load the version number from gemspecs 
   * No relative path in the require statement of tests to allow autopkgtest
 
  -- Cédric Boutillier <boutil@debian.org>  Fri, 08 Jul 2016 13:49:11 +0200
