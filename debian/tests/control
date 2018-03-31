@@ -1,0 +1,3 @@
+Tests: run-test
+Depends: @, quilt, gem2deb-test-runner, bundler, python-pygments, rake-compiler, ruby-multi-json, ruby-posix-spawn, ruby-yajl
+Restrictions: allow-stderr

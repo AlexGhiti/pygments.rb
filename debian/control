@@ -17,7 +17,6 @@ Vcs-Browser: https://salsa.debian.org/ruby-team/ruby-pygments.rb
 Vcs-Git: https://salsa.debian.org/ruby-team/ruby-pygments.rb.git
 Homepage: https://github.com/tmm1/pygments.rb
 XS-Ruby-Versions: all
-Testsuite: autopkgtest-pkg-ruby
 
 Package: ruby-pygments.rb
 Architecture: all
