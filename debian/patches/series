@@ -7,3 +7,4 @@
 0007-no-relative-path-for-require-in-tests.patch
 0008-Set-reasonable-upper-limit-to-RLIMIT_NOFILE.patch
 0009-Remove-rubygem-for-ruby2.5.patch
+0010-Disable-the-test-expecting-a-timeout.patch
