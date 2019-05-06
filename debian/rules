@@ -2,6 +2,10 @@
 
 export GEM2DEB_TEST_RUNNER = --check-dependencies
 
+# The default is 8 seconds but it's not always enough for the test suite.
+# See #923986 for details.
+export MENTOS_TIMEOUT = 60
+
 %:
 	dh $@ --buildsystem=ruby --with ruby
 
