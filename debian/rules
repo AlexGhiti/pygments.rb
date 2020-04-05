@@ -1,31 +1,7 @@
 #!/usr/bin/make -f
 
 export GEM2DEB_TEST_RUNNER = --check-dependencies
-
-# The default is 8 seconds but it's not always enough for the test suite.
-# See #923986 for details.
-export MENTOS_TIMEOUT = 60
+export DH_RUBY = --gem-install
 
 %:
 	dh $@ --buildsystem=ruby --with ruby
-
-override_dh_auto_clean:
-	dh_auto_clean
-	rm -rf doc
-
-override_dh_auto_build:
-	dh_auto_build
-	# build documention
-	rdoc lib
-
-override_dh_auto_install:
-	dh_auto_install
-	# make mentos.py executable
-	chmod 0755 debian/ruby-pygments.rb/usr/lib/ruby/vendor_ruby/pygments/mentos.py
-
-override_dh_installchangelogs:
-	dh_installchangelogs CHANGELOG.md
-	dh_compress
-
-get-orig-source:
-	debian/get-orig-source.sh
