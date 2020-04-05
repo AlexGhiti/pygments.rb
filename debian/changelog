@@ -1,8 +1,13 @@
-ruby-pygments.rb (1.2.0-5) UNRELEASED; urgency=medium
+ruby-pygments.rb (1.2.1-1) UNRELEASED; urgency=medium
 
+  [ Utkarsh Gupta ]
   * Add salsa-ci.yml
 
- -- Utkarsh Gupta <guptautkarsh2102@gmail.com>  Tue, 13 Aug 2019 06:43:25 +0530
+  [ Antonio Terceiro ]
+  * Add patch series for python3 port
+  * New upstream version 1.2.1
+
+ -- Antonio Terceiro <terceiro@debian.org>  Sun, 05 Apr 2020 10:27:13 -0300
 
 ruby-pygments.rb (1.2.0-4) unstable; urgency=high
 
