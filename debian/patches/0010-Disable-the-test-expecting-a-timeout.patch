@@ -1,15 +1,20 @@
-Description: disable the test expecting a timeout 
-Author: Santiago Vila <sanvila@debian.org>
+From: Santiago Vila <sanvila@debian.org>
+Date: Sun, 5 Apr 2020 10:17:56 -0300
+Subject: disable the test expecting a timeout
+
 Origin: vendor
 Bug-Debian: https://bugs.debian.org/928505
 Forwarded: no
 Last-Update: 2019-05-06
+---
+ test/test_pygments.rb | 6 ------
+ 1 file changed, 6 deletions(-)
 
-Index: ruby-pygments.rb/test/test_pygments.rb
-===================================================================
---- ruby-pygments.rb.orig/test/test_pygments.rb
-+++ ruby-pygments.rb/test/test_pygments.rb
-@@ -38,12 +38,6 @@ class PygmentsHighlightTest < Test::Unit
+diff --git a/test/test_pygments.rb b/test/test_pygments.rb
+index 4dcdbff..ee659c6 100644
+--- a/test/test_pygments.rb
++++ b/test/test_pygments.rb
+@@ -38,12 +38,6 @@ class PygmentsHighlightTest < Test::Unit::TestCase
      assert_equal 458511, code.bytesize.to_i
    end
  

@@ -8,3 +8,8 @@
 0008-Set-reasonable-upper-limit-to-RLIMIT_NOFILE.patch
 0009-Remove-rubygem-for-ruby2.5.patch
 0010-Disable-the-test-expecting-a-timeout.patch
+0011-Add-support-for-python-3.patch
+0012-mentos.py-break-on-EOF.patch
+0013-mentos.py-decode-header-when-getting-its-length.patch
+0014-test-drop-test-that-depends-on-Python-internals.patch
+0015-Port-to-python3.patch
