@@ -8,7 +8,7 @@ Subject: Remove-gemspec-git-ls-files
  1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/pygments.rb.gemspec b/pygments.rb.gemspec
-index 4a7cac2..99e01a6 100644
+index 87eea36..b1ce6f8 100644
 --- a/pygments.rb.gemspec
 +++ b/pygments.rb.gemspec
 @@ -1,4 +1,8 @@
@@ -25,6 +25,6 @@ index 4a7cac2..99e01a6 100644
    # s.extensions = ['ext/extconf.rb']
    s.require_paths = ['lib']
  
--  s.files = `git ls-files`.split("\n").select { |f| !File.symlink?(f) }
-+  #s.files = `git ls-files`.split("\n").select { |f| !File.symlink?(f) }
+-  s.files = `git ls-files`.split("\n").select { |f| !File.symlink?(f) } + ['lexers']
++  s.files = Dir['**/*'] - Dir['debian/**/*'] + ['lexers']
  end

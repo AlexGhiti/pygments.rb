@@ -11,7 +11,7 @@ Last-Update: 2018-03-31
  1 file changed, 1 deletion(-)
 
 diff --git a/Rakefile b/Rakefile
-index e208d59..d5d4acb 100644
+index fffd524..80226a0 100644
 --- a/Rakefile
 +++ b/Rakefile
 @@ -18,7 +18,6 @@ require 'rubygems/package_task'
