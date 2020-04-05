@@ -17,7 +17,7 @@ This is forwarded upstream https://github.com/tmm1/pygments.rb/pull/119
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/lib/pygments/popen.rb b/lib/pygments/popen.rb
-index a0ed512..56544f4 100644
+index 032effa..917460e 100644
 --- a/lib/pygments/popen.rb
 +++ b/lib/pygments/popen.rb
 @@ -41,7 +41,8 @@ module Pygments

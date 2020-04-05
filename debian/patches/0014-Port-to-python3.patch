@@ -71,7 +71,7 @@ index f2557f1..2641c79 100755
                  # Sanity check the return.
                  if _bytes:
 diff --git a/lib/pygments/popen.rb b/lib/pygments/popen.rb
-index 56544f4..3623d6b 100644
+index 917460e..987fc59 100644
 --- a/lib/pygments/popen.rb
 +++ b/lib/pygments/popen.rb
 @@ -65,9 +65,9 @@ module Pygments

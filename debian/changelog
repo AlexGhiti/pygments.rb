@@ -12,7 +12,9 @@ ruby-pygments.rb (1.2.1-1) unstable; urgency=medium
     - Refresh patches
   * Make lexers file (no longer shipped upstream) during build
   * Don't install doc/* (no longer shipped)
-  * Fix warning under ruby2.7
+  * Drop patch to fiddle with the path to the lexers file.
+    Now that we are using the rubygems layout, it's ok to look for it under
+    "this package directory".
 
  -- Antonio Terceiro <terceiro@debian.org>  Sun, 05 Apr 2020 10:46:14 -0300
 
