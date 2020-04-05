@@ -20,7 +20,7 @@ XS-Ruby-Versions: all
 
 Package: ruby-pygments.rb
 Architecture: all
-Depends: python,
+Depends: python2,
          python-pygments,
          ruby | ruby-interpreter,
          ruby-multi-json,

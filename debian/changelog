@@ -1,8 +1,15 @@
-ruby-pygments.rb (1.2.0-5) UNRELEASED; urgency=medium
+ruby-pygments.rb (1.2.0-5) unstable; urgency=medium
 
+  * Team upload
+
+  [ Utkarsh Gupta ]
   * Add salsa-ci.yml
 
- -- Utkarsh Gupta <guptautkarsh2102@gmail.com>  Tue, 13 Aug 2019 06:43:25 +0530
+  [ Mattia Rizzolo ]
+  * Change shabang to /usr/bin/python2.
+  * Depend on python2 instead of python.
+
+ -- Mattia Rizzolo <mattia@debian.org>  Sun, 05 Apr 2020 16:13:56 +0200
 
 ruby-pygments.rb (1.2.0-4) unstable; urgency=high
 
