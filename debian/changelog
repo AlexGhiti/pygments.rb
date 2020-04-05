@@ -1,13 +1,20 @@
-ruby-pygments.rb (1.2.1-1) UNRELEASED; urgency=medium
+ruby-pygments.rb (1.2.1-1) unstable; urgency=medium
+
+  * Team upload
 
   [ Utkarsh Gupta ]
   * Add salsa-ci.yml
 
   [ Antonio Terceiro ]
-  * Add patch series for python3 port
+  * Add patch series for python3 port (Closes: #943257)
   * New upstream version 1.2.1
+  * Refresh packaging files with dh-make-ruby
+    - Refresh patches
+  * Make lexers file (no longer shipped upstream) during build
+  * Don't install doc/* (no longer shipped)
+  * Fix warning under ruby2.7
 
- -- Antonio Terceiro <terceiro@debian.org>  Sun, 05 Apr 2020 10:27:13 -0300
+ -- Antonio Terceiro <terceiro@debian.org>  Sun, 05 Apr 2020 10:46:14 -0300
 
 ruby-pygments.rb (1.2.0-4) unstable; urgency=high
 
