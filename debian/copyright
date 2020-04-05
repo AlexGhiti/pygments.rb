@@ -1,6 +1,7 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: pygments.rb
 Source: https://github.com/tmm1/pygments.rb
+Files-Excluded: vendor/
 
 Files: *
 Copyright: 2012-2013 Aman Gupta <aman@tmm1.net>
