@@ -3,6 +3,7 @@
 export GEM2DEB_TEST_RUNNER = --check-dependencies
 export DH_RUBY = --gem-install
 export DH_RUBY_GEM_INSTALL_WHITELIST_APPEND = lexers
+export DH_RUBY_GEM_INSTALL_BLACKLIST_APPEND = vendor/*
 
 %:
 	dh $@ --buildsystem=ruby --with ruby

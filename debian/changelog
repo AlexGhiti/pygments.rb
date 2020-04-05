@@ -17,6 +17,7 @@ ruby-pygments.rb (1.2.1-1) unstable; urgency=medium
     "this package directory".
   * debian/rules: override the dh_compress options set by the `ruby` to avoid
     not compressing the changelogs
+  * debian/rules; don't install vendor/ (it's not really used)
 
  -- Antonio Terceiro <terceiro@debian.org>  Sun, 05 Apr 2020 10:46:14 -0300
 
