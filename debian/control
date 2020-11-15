@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Debian Ruby Team <pkg-ruby-extras-maintainers@lists.alioth.debian.org>
 Uploaders: Per Andersson <avtobiff@gmail.com>,
            Dominique Dumont <dod@debian.org>
-Build-Depends: debhelper-compat (= 12),
+Build-Depends: debhelper-compat (= 13),
                gem2deb (>= 1),
                rake,
                rake-compiler,
