@@ -8,13 +8,8 @@ export DH_RUBY_GEM_INSTALL_BLACKLIST_APPEND = vendor/*
 %:
 	dh $@ --buildsystem=ruby --with ruby
 
-override_dh_auto_build:
+execute_before_dh_auto_build:
 	rake lexers
-	dh_auto_build
-
-override_dh_auto_clean:
-	$(RM) -f lexers
-	dh_auto_clean
 
 override_dh_compress:
 	dh_compress
