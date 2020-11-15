@@ -12,3 +12,4 @@
 0012-mentos.py-decode-header-when-getting-its-length.patch
 0013-test-drop-test-that-depends-on-Python-internals.patch
 0014-Port-to-python3.patch
+test-less-dependency-on-pygments-version.diff
