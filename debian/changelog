@@ -1,3 +1,17 @@
+ruby-pygments.rb (1.2.1-2) unstable; urgency=medium
+
+  [ Cédric Boutillier ]
+  * Update team name
+
+  [ Nicolas Boulenguez ]
+  * Uscan v4 and Files-Excluded replace get-orig-source.sh
+  * Debhelper 13 (no changes)
+  * Slightly shorten d/rules
+  * Make the test less dependent on the pygments version, closes: #972481
+  * Comment explaining why dh_compress is overridden without options
+
+ -- Cédric Boutillier <boutil@debian.org>  Tue, 17 Nov 2020 00:03:18 +0100
+
 ruby-pygments.rb (1.2.1-1) unstable; urgency=medium
 
   * Team upload
