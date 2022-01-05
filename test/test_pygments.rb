@@ -33,13 +33,6 @@ class PygmentsHighlightTest < Test::Unit::TestCase
     assert_match 'Main loop, waiting for inputs on stdin', code
   end
 
-  def test_raises_exception_on_timeout
-    assert_raise MentosError.new('Timeout on a mentos highlight call') do
-      # Assume highlighting a large file will take more than 1 millisecond
-      P.highlight(TEST_CODE * 10, timeout: 0.001)
-    end
-  end
-
   def test_highlight_works_with_null_bytes
     code = P.highlight("\0hello", lexer: 'rb')
     assert_match 'hello', code
