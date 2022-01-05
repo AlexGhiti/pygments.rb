@@ -28,5 +28,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rubocop', '~> 0.81.0'
   s.add_development_dependency 'test-unit', '~> 3.5.0'
 
-  s.files = `git ls-files -z`.split("\0").reject { |f| File.symlink?(f) }
+  s.files = (Dir.glob('**/*', File::FNM_DOTMATCH) - Dir.glob('debian/**/*', File::FNM_DOTMATCH)).reject { |f| File.directory?(f) }
 end
