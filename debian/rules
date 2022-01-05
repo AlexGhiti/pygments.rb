@@ -9,7 +9,7 @@ export DH_RUBY_GEM_INSTALL_BLACKLIST_APPEND = vendor/*
 	dh $@ --buildsystem=ruby --with ruby
 
 execute_before_dh_auto_build:
-	rake lexers
+	rake build
 
 # The ruby debhelper module passes -X.rb to dh_compress, but this
 # exclusion pattern would match debian/ruby-pygments.rb/.
