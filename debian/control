@@ -1,0 +1,40 @@
+Source: ruby-pygments.rb
+Section: ruby
+Priority: optional
+Maintainer: Debian Ruby Team <pkg-ruby-extras-maintainers@lists.alioth.debian.org>
+Uploaders: Per Andersson <avtobiff@gmail.com>,
+           Dominique Dumont <dod@debian.org>
+Build-Depends: debhelper-compat (= 13),
+               gem2deb (>= 1),
+               rake,
+               rake-compiler,
+               ruby-multi-json  (>= 1.0.0),
+               ruby-posix-spawn,
+               ruby-yajl,
+               python3-pygments,
+Standards-Version: 4.5.0
+Vcs-Git: https://salsa.debian.org/ruby-team/ruby-pygments.rb.git
+Vcs-Browser: https://salsa.debian.org/ruby-team/ruby-pygments.rb
+Homepage: https://github.com/tmm1/pygments.rb
+Testsuite: autopkgtest-pkg-ruby
+XS-Ruby-Versions: all
+Rules-Requires-Root: no
+
+Package: ruby-pygments.rb
+Architecture: all
+XB-Ruby-Versions: ${ruby:Versions}
+Depends: ${misc:Depends},
+         ${ruby:Depends},
+         ${shlibs:Depends},
+         python3,
+         python3-pygments,
+Description: pygments wrapper for Ruby
+ A Ruby wrapper for the Python pygments syntax highlighter.
+ .
+ pygments.rb works by talking over a simple pipe to a long-lived Python child
+ process. This library replaces albino, as well as a version of pygments.rb
+ that used an embedded Python interpreter.
+ .
+ Each Ruby process that runs has its own 'personal Python'; for example, 4
+ Unicorn workers will have one Python process each.  If a Python process dies,
+ a new one will be spawned on the next pygments.rb request.

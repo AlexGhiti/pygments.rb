@@ -1,0 +1,154 @@
+ruby-pygments.rb (1.2.1-2) unstable; urgency=medium
+
+  * Team upload
+
+  [ Cédric Boutillier ]
+  * Update team name
+
+  [ Nicolas Boulenguez ]
+  * Uscan v4 and Files-Excluded replace get-orig-source.sh
+  * Debhelper 13 (no changes)
+  * Slightly shorten d/rules
+  * Make the test less dependent on the pygments version, closes: #972481
+  * Comment explaining why dh_compress is overridden without options
+
+ -- Cédric Boutillier <boutil@debian.org>  Tue, 17 Nov 2020 00:03:18 +0100
+
+ruby-pygments.rb (1.2.1-1) unstable; urgency=medium
+
+  * Team upload
+
+  [ Utkarsh Gupta ]
+  * Add salsa-ci.yml
+
+  [ Antonio Terceiro ]
+  * Add patch series for python3 port (Closes: #943257)
+  * New upstream version 1.2.1
+  * Refresh packaging files with dh-make-ruby
+    - Refresh patches
+  * Make lexers file (no longer shipped upstream) during build
+  * Don't install doc/* (no longer shipped)
+  * Drop patch to fiddle with the path to the lexers file.
+    Now that we are using the rubygems layout, it's ok to look for it under
+    "this package directory".
+  * debian/rules: override the dh_compress options set by the `ruby` to avoid
+    not compressing the changelogs
+  * debian/rules; don't install vendor/ (it's not really used)
+  * debian/copyright: exclude vendor/; import new upstream tarball without it.
+
+ -- Antonio Terceiro <terceiro@debian.org>  Sun, 05 Apr 2020 10:46:14 -0300
+
+ruby-pygments.rb (1.2.0-4) unstable; urgency=high
+
+  * Team upload.
+
+  [ HIGUCHI Daisuke (VDR dai) ]
+  * Disable the test expecting a timeout (Closes: #928505)
+  - Thanks to Santiago Vila <sanvila@debian.org>
+  * set urgency=high due to fix RC bug.
+
+ -- HIGUCHI Daisuke (VDR dai) <dai@debian.org>  Mon, 06 May 2019 20:27:24 +0900
+
+ruby-pygments.rb (1.2.0-3) unstable; urgency=high
+
+  * Team upload.
+
+  [ HIGUCHI Daisuke (VDR dai) ]
+  * d/rules: Extend timeout for the test suite. (Closes: #923986)
+  - Thanks to Santiago Vila <sanvila@debian.org>, Sergio Durigan Junior
+    <sergiodj@debian.org> and Chris Lamb <lamby@debian.org>.
+  * set urgency=high due to fix RC bug.
+
+ -- HIGUCHI Daisuke (VDR dai) <dai@debian.org>  Mon, 06 May 2019 10:01:37 +0900
+
+ruby-pygments.rb (1.2.0-2) unstable; urgency=medium
+
+  * Team upload.
+
+  [ HIGUCHI Daisuke (VDR dai) ]
+  * d/p/0009-Remove-rubygem-for-ruby2.5.patch:
+    Remove rubygem for ruby2.5 (Closes: #893822)
+  * eliminate lintian warning: insecure-copyright-format-uri
+  * eliminate lintian warning: homepage-field-uses-insecure-uri
+  * eliminate lintian warning: file-contains-trailing-whitespace
+  * support autopkgtest
+  * Use salsa.debian.org in Vcs-* fields
+  * Bump debhelper compatibility level to 11
+  * Bump Standards-Version to 4.1.3 (no changes needed)
+
+ -- HIGUCHI Daisuke (VDR dai) <dai@debian.org>  Sat, 31 Mar 2018 11:11:58 +0900
+
+ruby-pygments.rb (1.2.0-1) unstable; urgency=medium
+
+  * Team upload
+  * New upstream version 1.2.0
+  * Refresh patches
+  * Add Set-reasonable-upper-limit-to-RLIMIT_NOFILE.patch to avoid closing too
+    many files when mentos starts (Closes: #876768)
+  * Bump Standards-Version to 4.1.0 (no changes needed)
+  * Depend on ruby-multi-json
+
+ -- Cédric Boutillier <boutil@debian.org>  Fri, 29 Sep 2017 23:43:08 +0200
+
+ruby-pygments.rb (0.6.3-2) unstable; urgency=medium
+
+  * Team upload
+  * Remove version in the gem2deb build-dependency
+  * Use https:// in Vcs-* fields
+  * Run wrap-and-sort on packaging files
+  * Add patch to work with pygments 2.1+ (Closes: #830400)
+  * Bump Standards-Version to 3.9.8
+  * Set Testsuite to autopkgtest-pkg-ruby
+  * Amend 0001-Remove-gemspec-git-ls-files.patch to not use relative path to
+    load the version number from gemspecs
+  * No relative path in the require statement of tests to allow autopkgtest
+
+ -- Cédric Boutillier <boutil@debian.org>  Fri, 08 Jul 2016 13:49:11 +0200
+
+ruby-pygments.rb (0.6.3-1) unstable; urgency=medium
+
+  * Team upload
+  * Imported Upstream version 0.6.3
+  * Fix watch file to not use githubredir anymore
+  * Bump Standards-Version to 3.9.7
+  * Use https in Vcs-* fields
+  * Refresh patches
+  * Adapt pygments tests to new version (Closes: #812940)
+
+ -- Cédric Boutillier <boutil@debian.org>  Tue, 01 Mar 2016 18:28:48 +0100
+
+ruby-pygments.rb (0.5.4~ds1-3) unstable; urgency=medium
+
+  * Team upload.
+  * Reverted the previous upload completely, and acknowledged the NMU in
+    0.5.4~ds1-1.1 by Tomasz Buchert (Closes: #768615).
+  * Update debian/patches/0007-Update-test-result.patch to fix current FTBFS
+    (and properly Closes: #775631).
+
+ -- Antonio Terceiro <terceiro@debian.org>  Sat, 07 Feb 2015 13:17:48 -0200
+
+ruby-pygments.rb (0.5.4~ds1-2) unstable; urgency=medium
+
+  * Team upload
+  * fix tests (Closes: #775631):
+    - test_highlight_works_with_larger_files: instead of testing for an exact
+      amount of bytes, pass with there are more than 400,000 of them.
+      (debian/patches/0007-Update-test-result.patch)
+    - test_highlight_works_with_single_character_input: removed, since the
+      underlying Python code does not support that use case.
+      (debian/patches/0008-Drop-unfeasible-test.patch)
+
+ -- Antonio Terceiro <terceiro@debian.org>  Wed, 04 Feb 2015 19:43:57 -0200
+
+ruby-pygments.rb (0.5.4~ds1-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Update the testsuite (Closes: #768615)
+
+ -- Tomasz Buchert <tomasz.buchert@inria.fr>  Sat, 22 Nov 2014 15:18:14 +0100
+
+ruby-pygments.rb (0.5.4~ds1-1) unstable; urgency=low
+
+  * Initial release (Closes: #703188)
+
+ -- Per Andersson <avtobiff@gmail.com>  Fri, 04 Apr 2014 03:44:10 +0200

@@ -1,0 +1,28 @@
+From: =?utf-8?q?C=C3=A9dric_Boutillier?= <boutil@debian.org>
+Date: Fri, 29 Sep 2017 22:49:47 +0200
+Subject: Set reasonable upper limit to RLIMIT_NOFILE
+
+When RLIMIT_NOFILE is too high, the number of files to close
+can be too important and the process of closing could take more time
+than the timeout set (default to 8s).
+
+This causes asciidoctor to crash on some architectures
+
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=876768
+---
+ lib/pygments/mentos.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/pygments/mentos.py b/lib/pygments/mentos.py
+index 9c7c650..cf70b7b 100755
+--- a/lib/pygments/mentos.py
++++ b/lib/pygments/mentos.py
+@@ -334,7 +334,7 @@ def main():
+         # close fd's inherited from the ruby parent
+         import resource
+         maxfd = resource.getrlimit(resource.RLIMIT_NOFILE)[1]
+-        if maxfd == resource.RLIM_INFINITY:
++        if maxfd >= 65536:
+             maxfd = 65536
+ 
+         for fd in range(3, maxfd):
