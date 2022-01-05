@@ -16,12 +16,13 @@ module Pygments
     # Get things started by opening a pipe to mentos (the freshmaker), a
     # Python process that talks to the Pygments library. We'll talk back and
     # forth across this pipe.
-    def start(pygments_path = File.join(__dir__, '..', '..', 'vendor', 'pygments-main'))
+    def start #(pygments_path = File.join(__dir__, '..', '..', 'vendor', 'pygments-main'))
       @log = Logger.new(ENV['MENTOS_LOG'] || File::NULL)
       @log.level = Logger::INFO
       @log.datetime_format = '%Y-%m-%d %H:%M '
 
-      ENV['PYGMENTS_PATH'] = pygments_path
+      # in debian we have python-pygments installed
+      #ENV['PYGMENTS_PATH'] = pygments_path
 
       # Make sure we kill off the child when we're done
       at_exit { stop 'Exiting' }

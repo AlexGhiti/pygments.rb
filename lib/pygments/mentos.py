@@ -4,13 +4,14 @@
 import struct
 import sys, re, os, signal
 import traceback
-if 'PYGMENTS_PATH' in os.environ:
-    sys.path.insert(0, os.environ['PYGMENTS_PATH'])
+# in debian we have everything we need installed
+#if 'PYGMENTS_PATH' in os.environ:
+#    sys.path.insert(0, os.environ['PYGMENTS_PATH'])
 
-dirname = os.path.dirname
+#dirname = os.path.dirname
 
-base_dir = dirname(dirname(dirname(os.path.abspath(__file__))))
-sys.path.append(base_dir + "/vendor/pygments-main")
+#base_dir = dirname(dirname(dirname(os.path.abspath(__file__))))
+#sys.path.append(base_dir + "/vendor/pygments-main")
 
 import pygments
 from pygments import lexers, formatters, styles, filters
