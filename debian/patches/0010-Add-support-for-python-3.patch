@@ -1,0 +1,30 @@
+From: Ted Nyman <ted@ted.io>
+Date: Fri, 7 Dec 2012 01:52:18 -0800
+Subject: Add support for python 3
+
+---
+ lib/pygments/mentos.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/lib/pygments/mentos.py b/lib/pygments/mentos.py
+index cf70b7b..002a6cb 100755
+--- a/lib/pygments/mentos.py
++++ b/lib/pygments/mentos.py
+@@ -28,7 +28,7 @@ def _convert_keys(dictionary):
+     if not isinstance(dictionary, dict):
+         return dictionary
+     return dict((str(k), _convert_keys(v))
+-        for k, v in dictionary.items())
++        for k, v in list(dictionary.items()))
+ 
+ def _write_error(error):
+     res = {"error": error}
+@@ -42,7 +42,7 @@ def _write_error(error):
+ 
+ def _get_fixed_bits_from_header(out_header):
+     size = len(out_header)
+-    return "".join(map(lambda y:str((size>>y)&1), range(32-1, -1, -1)))
++    return "".join([str((size>>y)&1) for y in range(32-1, -1, -1)])
+ 
+ def _signal_handler(signal, frame):
+     """

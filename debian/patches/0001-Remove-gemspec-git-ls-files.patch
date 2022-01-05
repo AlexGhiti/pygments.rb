@@ -1,0 +1,30 @@
+From: Debian Ruby Extras Maintainers
+ <pkg-ruby-extras-maintainers@lists.alioth.debian.org>
+Date: Fri, 29 Sep 2017 22:48:27 +0200
+Subject: Remove-gemspec-git-ls-files
+
+---
+ pygments.rb.gemspec | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/pygments.rb.gemspec b/pygments.rb.gemspec
+index 87eea36..b1ce6f8 100644
+--- a/pygments.rb.gemspec
++++ b/pygments.rb.gemspec
+@@ -1,4 +1,8 @@
+-require File.expand_path('../lib/pygments/version', __FILE__)
++version_file = File.expand_path('../lib/pygments/version.rb', __FILE__)
++if not File.exists?(version_file)
++  version_file = 'pygments/version'
++end
++require version_file
+ 
+ Gem::Specification.new do |s|
+   s.name = 'pygments.rb'
+@@ -21,5 +25,5 @@ Gem::Specification.new do |s|
+   # s.extensions = ['ext/extconf.rb']
+   s.require_paths = ['lib']
+ 
+-  s.files = `git ls-files`.split("\n").select { |f| !File.symlink?(f) } + ['lexers']
++  s.files = Dir['**/*'] - Dir['debian/**/*'] + ['lexers']
+ end

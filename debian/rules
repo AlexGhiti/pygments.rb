@@ -1,0 +1,17 @@
+#!/usr/bin/make -f
+
+export GEM2DEB_TEST_RUNNER = --check-dependencies
+export DH_RUBY = --gem-install
+export DH_RUBY_GEM_INSTALL_WHITELIST_APPEND = lexers
+export DH_RUBY_GEM_INSTALL_BLACKLIST_APPEND = vendor/*
+
+%:
+	dh $@ --buildsystem=ruby --with ruby
+
+execute_before_dh_auto_build:
+	rake lexers
+
+# The ruby debhelper module passes -X.rb to dh_compress, but this
+# exclusion pattern would match debian/ruby-pygments.rb/.
+override_dh_compress:
+	dh_compress
