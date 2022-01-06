@@ -1,0 +1,48 @@
+Description: Don't set PYGMENTS_PATH and remove sys.path appends
+No need to use those as everything is installed already. This is just an updated
+version of the previous already existing patch from Debian Ruby Extras Maintainers.
+Author: Alexandre Ghiti <alexandre.ghiti@canonical.com>
+Origin: other
+Last-Update: 2022-01-06
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/lib/pygments/mentos.py
++++ b/lib/pygments/mentos.py
+@@ -4,13 +4,14 @@
+ import struct
+ import sys, re, os, signal
+ import traceback
+-if 'PYGMENTS_PATH' in os.environ:
+-    sys.path.insert(0, os.environ['PYGMENTS_PATH'])
++# in debian we have everything we need installed
++#if 'PYGMENTS_PATH' in os.environ:
++#    sys.path.insert(0, os.environ['PYGMENTS_PATH'])
+ 
+-dirname = os.path.dirname
++#dirname = os.path.dirname
+ 
+-base_dir = dirname(dirname(dirname(os.path.abspath(__file__))))
+-sys.path.append(base_dir + "/vendor/pygments-main")
++#base_dir = dirname(dirname(dirname(os.path.abspath(__file__))))
++#sys.path.append(base_dir + "/vendor/pygments-main")
+ 
+ import pygments
+ from pygments import lexers, formatters, styles, filters
+--- a/lib/pygments/popen.rb
++++ b/lib/pygments/popen.rb
+@@ -16,12 +16,13 @@
+     # Get things started by opening a pipe to mentos (the freshmaker), a
+     # Python process that talks to the Pygments library. We'll talk back and
+     # forth across this pipe.
+-    def start(pygments_path = File.join(__dir__, '..', '..', 'vendor', 'pygments-main'))
++    def start #(pygments_path = File.join(__dir__, '..', '..', 'vendor', 'pygments-main'))
+       @log = Logger.new(ENV['MENTOS_LOG'] || File::NULL)
+       @log.level = Logger::INFO
+       @log.datetime_format = '%Y-%m-%d %H:%M '
+ 
+-      ENV['PYGMENTS_PATH'] = pygments_path
++      # in debian we have python-pygments installed
++      #ENV['PYGMENTS_PATH'] = pygments_path
+ 
+       # Make sure we kill off the child when we're done
+       at_exit { stop 'Exiting' }
