@@ -1,3 +1,20 @@
+ruby-pygments.rb (2.3.0+ds-1) UNRELEASED; urgency=medium
+
+  [ Debian Janitor ]
+  * Remove constraints unnecessary since buster
+    + Build-Depends: Drop versioned constraint on gem2deb and ruby-multi-json.
+  * Update standards version to 4.5.1, no changes needed.
+
+  [ Mattia Rizzolo ]
+  * New upstream version 2.3.0+ds.
+  * d/copyright:
+    + drop trailing / from Files-Excluded, that's causing an uscan warning.
+    + While at it, since we are repacking, drop the .github directory too.
+  * d/watch: drop filenamemangle and instead set repacksuffix=+ds, since
+    this is a repacked source after all.
+
+ -- Mattia Rizzolo <mattia@debian.org>  Thu, 20 Jan 2022 18:37:19 +0100
+
 ruby-pygments.rb (1.2.1-2) unstable; urgency=medium
 
   * Team upload
