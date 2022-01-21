@@ -1,19 +1,15 @@
-From: Debian Ruby Extras Maintainers
- <pkg-ruby-extras-maintainers@lists.alioth.debian.org>
-Date: Fri, 29 Sep 2017 22:48:27 +0200
-Subject: Don-t-set-PYGMENTS_PATH-and-remove-sys.path-appends
-
+Description: Don't set PYGMENTS_PATH and remove sys.path appends
+No need to use those as everything is installed already. This is just an updated
+version of the previous already existing patch from Debian Ruby Extras Maintainers.
+Author: Alexandre Ghiti <alexandre.ghiti@canonical.com>
+Origin: other
+Last-Update: 2022-01-06
 ---
- lib/pygments/mentos.py | 15 ++++++++-------
- lib/pygments/popen.rb  |  5 +++--
- 2 files changed, 11 insertions(+), 9 deletions(-)
-
-diff --git a/lib/pygments/mentos.py b/lib/pygments/mentos.py
-index c0d6e88..7ee74a9 100755
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/lib/pygments/mentos.py
 +++ b/lib/pygments/mentos.py
-@@ -3,15 +3,16 @@
- 
+@@ -4,13 +4,14 @@
+ import struct
  import sys, re, os, signal
  import traceback
 -if 'PYGMENTS_PATH' in os.environ:
@@ -26,36 +22,27 @@ index c0d6e88..7ee74a9 100755
 +#dirname = os.path.dirname
  
 -base_dir = dirname(dirname(dirname(os.path.abspath(__file__))))
--sys.path.append(base_dir + "/vendor")
 -sys.path.append(base_dir + "/vendor/pygments-main")
--sys.path.append(base_dir + "/vendor/simplejson")
 +#base_dir = dirname(dirname(dirname(os.path.abspath(__file__))))
-+#sys.path.append(base_dir + "/vendor")
 +#sys.path.append(base_dir + "/vendor/pygments-main")
-+#sys.path.append(base_dir + "/vendor/simplejson")
  
  import pygments
  from pygments import lexers, formatters, styles, filters
-diff --git a/lib/pygments/popen.rb b/lib/pygments/popen.rb
-index 59942a7..298842e 100644
 --- a/lib/pygments/popen.rb
 +++ b/lib/pygments/popen.rb
-@@ -24,7 +24,7 @@ module Pygments
+@@ -16,12 +16,13 @@
      # Get things started by opening a pipe to mentos (the freshmaker), a
      # Python process that talks to the Pygments library. We'll talk back and
      # forth across this pipe.
--    def start(pygments_path = File.expand_path('../../../vendor/pygments-main/', __FILE__))
-+    def start #(pygments_path = File.expand_path('../../../vendor/pygments-main/', __FILE__))
-       begin
-         @log = Logger.new(ENV['MENTOS_LOG'] ||= File::NULL)
-         @log.level = Logger::INFO
-@@ -33,7 +33,8 @@ module Pygments
-         @log = Logger.new(File::NULL)
-       end
+-    def start(pygments_path = File.join(__dir__, '..', '..', 'vendor', 'pygments-main'))
++    def start #(pygments_path = File.join(__dir__, '..', '..', 'vendor', 'pygments-main'))
+       @log = Logger.new(ENV['MENTOS_LOG'] || File::NULL)
+       @log.level = Logger::INFO
+       @log.datetime_format = '%Y-%m-%d %H:%M '
  
 -      ENV['PYGMENTS_PATH'] = pygments_path
 +      # in debian we have python-pygments installed
 +      #ENV['PYGMENTS_PATH'] = pygments_path
  
        # Make sure we kill off the child when we're done
-       at_exit { stop "Exiting" }
+       at_exit { stop 'Exiting' }
