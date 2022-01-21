@@ -1,29 +1,25 @@
-From: Santiago Vila <sanvila@debian.org>
-Date: Sun, 5 Apr 2020 10:17:56 -0300
-Subject: disable the test expecting a timeout
-
+Description: disable the test expecting a timeout
+Based on previous patch from Santiago Vila <sanvila@debian.org>.
+Author: Alexandre Ghiti <alexandre.ghiti@canonical.com>
 Origin: vendor
 Bug-Debian: https://bugs.debian.org/928505
 Forwarded: no
-Last-Update: 2019-05-06
+Last-Update: 2022-01-06
 ---
- test/test_pygments.rb | 6 ------
- 1 file changed, 6 deletions(-)
-
-diff --git a/test/test_pygments.rb b/test/test_pygments.rb
-index 4dcdbff..ee659c6 100644
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/test/test_pygments.rb
 +++ b/test/test_pygments.rb
-@@ -38,12 +38,6 @@ class PygmentsHighlightTest < Test::Unit::TestCase
-     assert_equal 458511, code.bytesize.to_i
+@@ -33,13 +33,6 @@
+     assert_match 'Main loop, waiting for inputs on stdin', code
    end
  
--  def test_returns_nil_on_timeout
--    large_code = REDIS_CODE * 300
--    code = P.highlight(large_code) # a 30 mb highlight request will timeout
--    assert_equal nil, code
+-  def test_raises_exception_on_timeout
+-    assert_raise MentosError.new('Timeout on a mentos highlight call') do
+-      # Assume highlighting a large file will take more than 1 millisecond
+-      P.highlight(TEST_CODE * 10, timeout: 0.001)
+-    end
 -  end
 -
    def test_highlight_works_with_null_bytes
-     code = P.highlight("\0hello", :lexer => 'rb')
-     assert_match "hello", code
+     code = P.highlight("\0hello", lexer: 'rb')
+     assert_match 'hello', code
