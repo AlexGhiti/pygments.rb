@@ -1,15 +1,6 @@
 0001-Remove-gemspec-git-ls-files.patch
 0002-Don-t-set-PYGMENTS_PATH-and-remove-sys.path-appends.patch
-0004-Remove-unshipped-custom-lexers.patch
 0005-Use-proper-python-shebang.patch
-0006-Invoke-mentos-directly-on-GNU-Linux.patch
 0007-no-relative-path-for-require-in-tests.patch
-0008-Set-reasonable-upper-limit-to-RLIMIT_NOFILE.patch
-0009-Remove-rubygem-for-ruby2.5.patch
 0010-Disable-the-test-expecting-a-timeout.patch
-0010-Add-support-for-python-3.patch
-0011-mentos.py-break-on-EOF.patch
-0012-mentos.py-decode-header-when-getting-its-length.patch
 0013-test-drop-test-that-depends-on-Python-internals.patch
-0014-Port-to-python3.patch
-test-less-dependency-on-pygments-version.diff
