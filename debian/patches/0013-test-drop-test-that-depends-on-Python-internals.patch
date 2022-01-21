@@ -1,24 +1,19 @@
-From: Antonio Terceiro <asa@terceiro.xyz>
-Date: Thu, 13 Feb 2020 14:39:00 -0300
-Subject: test: drop test that depends on Python internals
-
+Description: test: drop test that depends on Python internals
 This test works on Python 2 because for some reason the "Python" lexers
 comes later, and overrides the "IPython" one in the mime type index. On
 Python 3, that order is different, and a lookup for "text/x-python"
 will return the "IPython" lexer instead.
+Author: Antonio Terceiro <asa@terceiro.xyz>
+Last-Update: 2020-02-13
 ---
- test/test_pygments.rb | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/test/test_pygments.rb b/test/test_pygments.rb
-index ee659c6..c919415 100644
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
 --- a/test/test_pygments.rb
 +++ b/test/test_pygments.rb
-@@ -237,7 +237,6 @@ class PygmentsLexerClassTest < Test::Unit::TestCase
-  def test_find_lexer_by_mimetype
+@@ -185,7 +185,6 @@
+   def test_find_lexer_by_mimetype
      assert_equal P::Lexer['Ruby'], P::Lexer.find_by_mimetype('text/x-ruby')
      assert_equal P::Lexer['JSON'], P::Lexer.find_by_mimetype('application/json')
 -    assert_equal P::Lexer['Python'], P::Lexer.find_by_mimetype('text/x-python')
-  end
+   end
  end
  
